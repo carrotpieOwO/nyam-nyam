@@ -1,0 +1,305 @@
+@charset "UTF-8";
+
+@media only screen and (max-width: 700px) {
+	#logo-center {
+		display: none;
+	}
+	#search {
+		width: 100%;
+	}
+	#selectCity {
+		width: 30%;
+	}
+}
+
+@media only screen and (min-width: 700px) {
+	#logo {
+		display: none;
+	}
+}
+
+<!--아이디변경 -->
+#switch_sex_type {
+	width: 100%;
+	background: #fff;
+	border-bottom: 1px #ddd solid;
+}
+
+#switch_sex_type nav ul {
+	letter-spacing: -0.4em;
+	text-align: center;
+	line-height: 1.2;
+	vertical-align: middle;
+}
+
+#switch_sex_type nav ul li {
+	width: 100px;
+	display: inline-block;
+	letter-spacing: normal;
+	text-align: center;
+	line-height: 1.2;
+	vertical-align: middle;
+	font-family: "Helvetica Neue", "Helvetica", "Arial", "Verdana",
+		sans-serif;
+	position: relative;
+	color: #888;
+	margin: 0;
+}
+
+#category {
+	display: block;
+	list-style-type: disc;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	padding-inline-start: 40px;
+}
+
+.underline {
+	line-height: 1.2;
+	background-image: linear-gradient(transparent calc(100% - 3px), #000 3px);
+	background-repeat: no-repeat;
+	background-size: 0% 100%;
+	transition: background-size 0.8s;
+	color: #000;
+	cursor: pointer;
+}
+
+.yellow {
+	background-image: linear-gradient(transparent 60%, #f8cd07 40%);
+}
+
+.yellow:hover {
+	background-size: 100% 100%;
+}
+
+a.under:hover {
+	text-decoration: none;
+}
+
+<!--여기까지가 상단영역 -->
+
+#sidebar section ul {
+	list-style: none;
+}
+
+<!--유저이미지, 랭킹숫자꾸미기 -->
+
+#sidebar section ul{
+    list-style: none;
+}
+
+.rank1, .rank2, .rank3 {
+	width: 20px;
+	height: 20px;
+	border: 1px #666 solid;
+	border-width: 1.5px;
+	background: rgba(0, 0, 0, 0.8);
+	text-align: center;
+	color: #fff;
+	border-radius: 50%;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.rank1 {
+	border-color: #e6d439;
+}
+
+.rank2 {
+	border-color: #adadad;
+}
+
+.rank3 {
+	border-color: #9a5b00;
+}
+
+<!-- 여기서부터 뭔지 모르겠음 찾아보기 -->
+#mainNav {
+	background-color: #212529;
+}
+
+#mainNav .navbar-toggler {
+	font-size: 12px;
+	right: 0;
+	padding: 13px;
+	text-transform: uppercase;
+	color: #fff;
+	border: 0;
+	background-color: #fed136;
+	font-family: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI",
+		Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+#mainNav .navbar-brand {
+	color: #fed136;
+	font-family: "Kaushan Script", -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+		"Noto Color Emoji";
+}
+
+#mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus,
+	#mainNav .navbar-brand:hover {
+	color: #fec503;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link {
+	font-size: 90%;
+	font-weight: 400;
+	padding: 0.75em 0;
+	letter-spacing: 1px;
+	color: #fff;
+	font-family: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI",
+		Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@media ( min-width : 992px) {
+	#mainNav {
+		padding-top: 25px;
+		padding-bottom: 25px;
+		transition: padding-top 0.3s, padding-bottom 0.3s;
+		border: none;
+		background-color: transparent;
+	}
+	#mainNav .navbar-brand {
+		font-size: 1.75em;
+		transition: all 0.3s;
+	}
+	#mainNav .navbar-nav .nav-item .nav-link {
+		padding: 1.1em 1em !important;
+	}
+	#mainNav.navbar-shrink {
+		padding-top: 0;
+		padding-bottom: 0;
+		background-color: #212529;
+	}
+	#mainNav.navbar-shrink .navbar-brand {
+		font-size: 1.25em;
+		padding: 12px 0;
+	}
+}
+
+header.masthead {
+	text-align: center;
+	color: #fff;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center center;
+	background-size: cover;
+	height: 300px;
+}
+
+header.masthead .intro-lead-in {
+	font-size: 80px;
+	font-weight: 700;
+	font-family: "Finger Paint", cursive;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	text-align: center;
+}
+
+@media ( min-width : 768px) {
+	header.masthead .intro-lead-in {
+		font-size: 80px;
+		font-weight: 700;
+		font-family: "Finger Paint", cursive;
+		position: absolute;
+		top: 20%;
+		transform: translate(-50%, -50%);
+		color: white;
+		text-align: center;
+		font-family: "Finger Paint", cursive;
+	}
+}
+
+.tag-badge {
+	position: absolute;
+	bottom: 80px;
+	left: 5px;
+}
+
+#user_header_mini {
+	width: 100%;
+	left: 0;
+	margin-top: 54px;
+	/* z-index: 40; */
+	background: rgba(255, 255, 255, 0.97);
+	-webkit-box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+	display: table;
+	height: 60px;
+}
+
+
+<!-- 댓글 풍선 모양 -->
+.balloon {
+	position: relative;
+	display: inline-block;
+}
+
+.balloon span {
+	display: inline-block;
+	padding: 10px;
+	color: white;
+	background: #007bff;
+	border-radius: 20px;
+}
+
+.balloon:after {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-style: solid;
+}
+
+.balloon.test_3:after, .balloon.test_4:after {
+	border-width: 10px 15px;
+	top: 50%;
+	margin-top: -10px;
+}
+
+.balloon.test_3:after {
+	border-color: transparent #007bff transparent transparent;
+	left: -25px;
+}
+
+.balloon.test_4:after {
+	border-color: transparent transparent transparent #007bff;
+	right: -25px;
+}
+
+.tag {
+	display: inline-block;
+	background: #fff;
+	color: #333;
+	border: 1px #e2e2e2 solid;
+	padding: 6px 12px 6px 12px;
+	line-height: 1.2;
+	border-radius: 2px;
+	font-size: 11px;
+}
+
+.preview {
+	height: 150px;
+	border-radius: 5px;
+	border: 1px gray;
+	border-style: dashed;
+}
+
+#star_grade a {
+	text-decoration: none;
+	color: gray;
+}
+
+#star_grade a.on {
+	color: #fec503;
+}
+
