@@ -22,5 +22,5 @@ spring:
         1MB
 
 file:
-  path: C:/src/springbootWork/springboot_project/media/
+  path: C:/src/springboot/springboot_project/media/
 
