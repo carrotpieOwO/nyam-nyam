@@ -28,11 +28,8 @@ public class ReviewController {
 	// 인증체크필요
 	@GetMapping("/review/write")
 	public String write() {
-		if (session.getAttribute("principal") != null) {
-			return "/post/write";
-		} else {
-			return "redirect:/user/login";
-		}
+
+		return "/review/write2";
 	}
 
 	// 인증체크필요, 동일인 체크

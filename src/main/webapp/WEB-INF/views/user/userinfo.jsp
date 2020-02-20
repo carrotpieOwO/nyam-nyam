@@ -21,7 +21,7 @@
 		<div class="row justify-content-center">
 			<!-- 사이드바 -->
 			<div class="col-4">
-				<div class="btn-group-vertical mt-5" style="width: 70%;">
+				<div class="btn-group-vertical mt-5 float-right" style="width: 70%;">
 					<a type="button" class="btn btn-outline-secondary active mb-2">프로필</a>
 					<a href="/user/profile/${principal.id}" type="button"
 						class="btn btn-outline-secondary">기본정보</a>

@@ -5,20 +5,30 @@
 		display: none;
 	}
 	#search {
-		width: 100%;
+		margin-top: 10px;
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
 	}
 	#selectCity {
 		width: 30%;
 	}
+	section#user {
+		text-align: center;
+	}
+	section#user li.clearfix {
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
 
+}
 @media only screen and (min-width: 700px) {
 	#logo {
 		display: none;
 	}
 }
 
-<!--아이디변경 -->
 #switch_sex_type {
 	width: 100%;
 	background: #fff;
@@ -74,20 +84,18 @@
 	background-size: 100% 100%;
 }
 
-a.under:hover {
+a:hover {
 	text-decoration: none;
 }
 
-<!--여기까지가 상단영역 -->
+@media only screen and (max-width: 570px) {
+	#page-top, #curtain {
+		display: none;
+	}
+}
 
 #sidebar section ul {
 	list-style: none;
-}
-
-<!--유저이미지, 랭킹숫자꾸미기 -->
-
-#sidebar section ul{
-    list-style: none;
 }
 
 .rank1, .rank2, .rank3 {
@@ -115,7 +123,6 @@ a.under:hover {
 	border-color: #9a5b00;
 }
 
-<!-- 여기서부터 뭔지 모르겠음 찾아보기 -->
 #mainNav {
 	background-color: #212529;
 }
@@ -237,8 +244,6 @@ header.masthead .intro-lead-in {
 	height: 60px;
 }
 
-
-<!-- 댓글 풍선 모양 -->
 .balloon {
 	position: relative;
 	display: inline-block;
@@ -288,10 +293,11 @@ header.masthead .intro-lead-in {
 }
 
 .preview {
-	height: 150px;
 	border-radius: 5px;
 	border: 1px gray;
 	border-style: dashed;
+	width: 92%;
+	background-color:#f0f1f2;
 }
 
 #star_grade a {
@@ -303,3 +309,13 @@ header.masthead .intro-lead-in {
 	color: #fec503;
 }
 
+.filebox input[type="file"] { /* 파일 필드 숨기기 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}

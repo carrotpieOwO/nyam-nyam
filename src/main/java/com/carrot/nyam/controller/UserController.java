@@ -117,15 +117,23 @@ public class UserController {
 			@RequestParam String insta, @RequestParam String blog, @AuthenticationPrincipal User principal) {
 		System.out.println(id);
 		UUID uuid = UUID.randomUUID();
-		String uuidFilename= uuid+"_"+profile.getOriginalFilename();
-		
-		Path filePath = Paths.get(fileRealPath+uuidFilename);
-		try {
-			Files.write(filePath, profile.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
+		String uuidFilename;
+				
+		if(!profile.getOriginalFilename().equals("")) {
+			uuidFilename= uuid+"_"+profile.getOriginalFilename();
+		}else {
+			uuidFilename="";
 		}
-
+		
+		if(!uuidFilename.equals("")) {
+			Path filePath = Paths.get(fileRealPath+uuidFilename);
+			try {
+				Files.write(filePath, profile.getBytes());
+			}catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		int result = userService.updateUserinfo(id, uuidFilename, introduction, insta, blog, principal);
 		
 		StringBuffer sb = new StringBuffer();

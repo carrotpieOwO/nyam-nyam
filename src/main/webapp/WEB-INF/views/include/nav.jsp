@@ -13,7 +13,7 @@
 </button>
 <div class="collapse navbar-collapse " id="collapsibleNavbar">
 	<div>
-		<form class="form-inline input-group" action="/action_page.php">
+		<form id="search" class="form-inline input-group" action="/action_page.php">
 			<div class="input-group-prepend">
 				<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">검색조건</button>
 				<div class="dropdown-menu">
@@ -23,7 +23,7 @@
 				</div>
 			</div>
 
-			<input id="search" class="form-control" type="text" placeholder="Search" />
+			<input  class="form-control" type="text" placeholder="Search" />
 			<div class="input-group-append">
 				<button class="btn btn-warning" type="submit">
 					<i class="fas fa-search"></i>
@@ -32,8 +32,8 @@
 	</div>
 	</form>
 	<a id="logo-center" class="navbar-brand ml-auto" href="/">Nyam-Nyami</a>
-	<ul class="navbar-nav text-uppercase ml-auto align-items-center">
-		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">지역선택</a>
+	<ul id="nav-right" class="navbar-nav text-uppercase ml-auto  align-items-center">
+		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-center" data-toggle="dropdown" href="#">지역선택</a>
 			<div class="dropdown-menu " id="selectCity">
 				<a class="dropdown-item" href="#">Link 1</a> <a class="dropdown-item" href="#">Link 2</a> <a class="dropdown-item" href="#">Link 3</a>
 			</div></li>
@@ -41,12 +41,13 @@
 			<c:choose>
 					<c:when test="${not empty principal}">
 					
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle d-flex align-items-center" data-toggle="dropdown" href="#">
+					<li class="nav-item dropdown ">
+						<a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center" data-toggle="dropdown" href="#">
 							<img src="/media/${principal.profile}"  width="30px" height="30px" class="rounded-circle" onError="javascript:this.src='/img/unknown.png'"/>
 							<p class="my-auto ml-1">${principal.username}</p>
 						</a>
 					<div class="dropdown-menu" style="font-size:12px; width:30px;">
+						<a class="dropdown-item" href="/review/write">리뷰작성</a> 
 						<a class="dropdown-item" href="#">마이페이지</a> 
 						<a class="dropdown-item" href="/user/userinfo/${principal.id}">프로필 수정</a> 
 						<a class="dropdown-item" href="/logout">로그아웃</a>
