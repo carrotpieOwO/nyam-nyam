@@ -1,12 +1,14 @@
 package com.carrot.nyam.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.nyam.model.ReturnCode;
+import com.carrot.nyam.model.review.dto.RespListDto;
 import com.carrot.nyam.model.user.User;
 import com.carrot.nyam.model.user.dto.ReqJoinDto;
 import com.carrot.nyam.model.user.dto.ReqLoginDto;
@@ -18,7 +20,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -86,6 +88,13 @@ public class UserService {
 		}
 
 	}
+	
+	//마이페이지 리스트
+	public List<RespListDto> myPageList(String username){
+		return userRepository.findReviewAll(username);
+	}
+	
+
 	
 	
 }

@@ -16,7 +16,7 @@ public class ReqWriteDto {
 	private String image3;
 	private String shopName;
 	private String content;
-	private String rating;
+	private int rating;
 	private String price;
 	private String location;
 	private int userId;

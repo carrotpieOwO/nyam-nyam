@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -16,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +32,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.nyam.model.RespCM;
 import com.carrot.nyam.model.ReturnCode;
+import com.carrot.nyam.model.review.dto.RespListDto;
+import com.carrot.nyam.model.tag.Tag;
 import com.carrot.nyam.model.user.User;
 import com.carrot.nyam.model.user.dto.ReqJoinDto;
 import com.carrot.nyam.model.user.dto.ReqProfileDto;
+import com.carrot.nyam.repository.LikesRepository;
 import com.carrot.nyam.service.MyUserDetailService;
 import com.carrot.nyam.service.UserService;
 
@@ -45,6 +51,9 @@ public class UserController {
 	
 	@Autowired
 	private MyUserDetailService userDetailService;
+	
+	@Autowired
+	private LikesRepository likesRepository;
 	
 	//화면이동
 	@GetMapping("user/join")
@@ -72,7 +81,23 @@ public class UserController {
 				  return "/user/login";
 			  }
 		  }
-		 
+	  
+	  @GetMapping("user/mypage/{username}")
+		public String mypage(Model model, @PathVariable String username) {
+		  
+		  List<RespListDto> dtos = userService.myPageList(username);
+		  List<String> locations = new ArrayList<>();
+		  for(RespListDto dto : dtos) {
+			  String[] loc = dto.getLocation().split("\\s");
+			  dto.setLocation(loc[2]);
+			  int likeCount = likesRepository.likeCount(dto.getId());
+			  dto.setLikeCount(likeCount);
+		  }
+		    
+			model.addAttribute("reviews", dtos);
+
+			return "/user/mypage";
+		}
 	
 	//회원가입 구현
 	@PostMapping("user/join")

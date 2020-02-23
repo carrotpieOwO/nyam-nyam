@@ -21,6 +21,7 @@ public class Review {
 	private int userId;
 	private int hits;
 	private Timestamp createDate;
+	private Boolean like;
 	
 	@Builder
 	public Review(String image1, String image2, String image3, String shopName, String content, int rating,

@@ -46,5 +46,15 @@
 	<select id="findById" resultType="com.carrot.nyam.model.user.User">
 		select id, username, email, address, profile, introduction, insta, blog, createDate from user where id = #{id}
 	</select>
-
+	
+	<!-- 마이페이지 리스트 -->
+	<select id="findReviewAll"
+		resultType="com.carrot.nyam.model.review.dto.RespListDto">
+		
+		select r.id, r.image1, r.rating, r.shopName, r.location, u.*, 
+		(select count(*) from review where username=#{username})count from review r inner join user as u on r.userId = u.id
+		where username = #{username} order by r.id desc
+		
+	</select>
+	
 </mapper>

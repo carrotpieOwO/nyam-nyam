@@ -43,12 +43,12 @@
 					
 					<li class="nav-item dropdown ">
 						<a class="nav-link dropdown-toggle d-flex align-items-center justify-content-center" data-toggle="dropdown" href="#">
-							<img src="/media/${principal.profile}"  width="30px" height="30px" class="rounded-circle" onError="javascript:this.src='/img/unknown.png'"/>
+							<img src="/media/${principal.profile}"  width="30px" height="30px" class="rounded-circle border" onError="javascript:this.src='/img/unknown.png'"/>
 							<p class="my-auto ml-1">${principal.username}</p>
 						</a>
 					<div class="dropdown-menu" style="font-size:12px; width:30px;">
 						<a class="dropdown-item" href="/review/write">리뷰작성</a> 
-						<a class="dropdown-item" href="#">마이페이지</a> 
+						<a class="dropdown-item" href="/user/mypage/${principal.username}">마이페이지</a> 
 						<a class="dropdown-item" href="/user/userinfo/${principal.id}">프로필 수정</a> 
 						<a class="dropdown-item" href="/logout">로그아웃</a>
 					</div></li>
