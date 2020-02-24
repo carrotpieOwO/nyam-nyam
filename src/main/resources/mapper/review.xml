@@ -5,11 +5,9 @@
 <mapper namespace="com.carrot.nyam.repository.ReviewRepository">
 
 	
-	<insert id="write" parameterType="com.carrot.nyam.model.review.dto.ReqWriteDto" >
-    <selectKey resultType="int" keyProperty="id" order="BEFORE">
-        SELECT MAX(id)+1 FROM review       
-    </selectKey>    
-		
+	<insert id="write" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.carrot.nyam.model.review.dto.ReqWriteDto">
+	  	
 		insert into review(image1, image2, image3, shopName, content, rating, price, location, userId, createDate) 
 		values(#{image1}, #{image2}, #{image3}, #{shopName}, #{content}, #{rating}, #{price}, #{location}, #{userId}, now())
 		
@@ -29,4 +27,17 @@
 		]]>
 			
 	</select>
+	
+	
+	<!-- 수정하기 -->
+	
+	<update id="update">
+		update review set shopName=#{shopName}, content=#{content}, rating=#{rating}, price=#{price}, location=#{location} where id=#{id}
+	</update> 
+	
+	<!-- 삭제하기 -->
+	<delete id="delete">
+		delete from review where id=#{id}
+	</delete>
+
 </mapper>

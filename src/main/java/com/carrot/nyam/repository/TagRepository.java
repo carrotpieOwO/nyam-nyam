@@ -5,5 +5,6 @@ import java.util.List;
 public interface TagRepository {
 	public int write(String tag, int reviewId);
 	public List<String> findById(int reviewId);
+	public int delete(int reviewId);
 
 }

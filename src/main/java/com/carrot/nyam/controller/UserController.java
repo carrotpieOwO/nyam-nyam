@@ -33,11 +33,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.carrot.nyam.model.RespCM;
 import com.carrot.nyam.model.ReturnCode;
 import com.carrot.nyam.model.review.dto.RespListDto;
-import com.carrot.nyam.model.tag.Tag;
 import com.carrot.nyam.model.user.User;
 import com.carrot.nyam.model.user.dto.ReqJoinDto;
 import com.carrot.nyam.model.user.dto.ReqProfileDto;
+import com.carrot.nyam.repository.ClippingRepository;
 import com.carrot.nyam.repository.LikesRepository;
+import com.carrot.nyam.repository.UserRepository;
 import com.carrot.nyam.service.MyUserDetailService;
 import com.carrot.nyam.service.UserService;
 
@@ -54,6 +55,12 @@ public class UserController {
 	
 	@Autowired
 	private LikesRepository likesRepository;
+	
+	@Autowired
+	private ClippingRepository clippingRepository;
+	
+	@Autowired
+	private  UserRepository userRepository;
 	
 	//화면이동
 	@GetMapping("user/join")
@@ -87,13 +94,19 @@ public class UserController {
 		  
 		  List<RespListDto> dtos = userService.myPageList(username);
 		  List<String> locations = new ArrayList<>();
+		  
+		  User user = userRepository.authentication(username);
+		  
 		  for(RespListDto dto : dtos) {
 			  String[] loc = dto.getLocation().split("\\s");
 			  dto.setLocation(loc[2]);
 			  int likeCount = likesRepository.likeCount(dto.getId());
 			  dto.setLikeCount(likeCount);
+			  int clippingCount = clippingRepository.clippingCount(dto.getId());
+			  dto.setClippingCount(clippingCount);
 		  }
 		    
+		  	model.addAttribute("user", user);
 			model.addAttribute("reviews", dtos);
 
 			return "/user/mypage";

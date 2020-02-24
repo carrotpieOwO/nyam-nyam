@@ -12,7 +12,10 @@
 	
 	<!-- 태그불러오기 -->
 	<select id="findById" resultType="String">
-		select tag from tag where reviewId=#{reviewId};	
+		select tag from tag where reviewId=#{reviewId}
 	</select>
 	
+	<delete id="delete">
+		delete from tag where reviewId = #{reviewId}
+	</delete>
 </mapper>

@@ -31,5 +31,10 @@ public class TagService {
 		return tagRepository.findById(reviewId);
 	}
 	
+	//태그 삭제
+	public int delete(int reviewId) {
+		return tagRepository.delete(reviewId);
+	}
+	
 	
 }

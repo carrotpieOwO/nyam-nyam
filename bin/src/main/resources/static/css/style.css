@@ -1,0 +1,361 @@
+@charset "UTF-8";
+
+@media only screen and (max-width: 700px) {
+	#logo-center {
+		display: none;
+	}
+	#search {
+		margin-top: 10px;
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#selectCity {
+		width: 30%;
+	}
+	section#user {
+		text-align: center;
+	}
+	section#user li.clearfix {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+}
+@media only screen and (min-width: 700px) {
+	#logo {
+		display: none;
+	}
+}
+
+#switch_sex_type {
+	width: 100%;
+	background: #fff;
+	border-bottom: 1px #ddd solid;
+}
+
+#switch_sex_type nav ul {
+	letter-spacing: -0.4em;
+	text-align: center;
+	line-height: 1.2;
+	vertical-align: middle;
+}
+
+#switch_sex_type nav ul li {
+	width: 100px;
+	display: inline-block;
+	letter-spacing: normal;
+	text-align: center;
+	line-height: 1.2;
+	vertical-align: middle;
+	font-family: "Helvetica Neue", "Helvetica", "Arial", "Verdana",
+		sans-serif;
+	position: relative;
+	color: #888;
+	margin: 0;
+}
+
+#category {
+	display: block;
+	list-style-type: disc;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	padding-inline-start: 40px;
+}
+
+.underline {
+	line-height: 1.2;
+	background-image: linear-gradient(transparent calc(100% - 3px), #000 3px);
+	background-repeat: no-repeat;
+	background-size: 0% 100%;
+	transition: background-size 0.8s;
+	color: #000;
+	cursor: pointer;
+}
+
+.yellow {
+	background-image: linear-gradient(transparent 60%, #f8cd07 40%);
+}
+
+.yellow:hover {
+	background-size: 100% 100%;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+@media only screen and (max-width: 570px) {
+	#page-top, #curtain {
+		display: none;
+	}
+}
+
+#sidebar section ul {
+	list-style: none;
+}
+
+.rank1, .rank2, .rank3 {
+	width: 20px;
+	height: 20px;
+	border: 1px #666 solid;
+	border-width: 1.5px;
+	background: rgba(0, 0, 0, 0.8);
+	text-align: center;
+	color: #fff;
+	border-radius: 50%;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.rank1 {
+	border-color: #e6d439;
+}
+
+.rank2 {
+	border-color: #adadad;
+}
+
+.rank3 {
+	border-color: #9a5b00;
+}
+
+#mainNav {
+	background-color: #212529;
+}
+
+#mainNav .navbar-toggler {
+	font-size: 12px;
+	right: 0;
+	padding: 13px;
+	text-transform: uppercase;
+	color: #fff;
+	border: 0;
+	background-color: #fed136;
+	font-family: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI",
+		Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+#mainNav .navbar-brand {
+	color: #fed136;
+	font-family: "Kaushan Script", -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+		"Noto Color Emoji";
+}
+
+#mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus,
+	#mainNav .navbar-brand:hover {
+	color: #fec503;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link {
+	font-size: 90%;
+	font-weight: 400;
+	padding: 0.75em 0;
+	letter-spacing: 1px;
+	color: #fff;
+	font-family: Montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI",
+		Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@media ( min-width : 992px) {
+	#mainNav {
+		padding-top: 25px;
+		padding-bottom: 25px;
+		transition: padding-top 0.3s, padding-bottom 0.3s;
+		border: none;
+		background-color: transparent;
+	}
+	#mainNav .navbar-brand {
+		font-size: 1.75em;
+		transition: all 0.3s;
+	}
+	#mainNav .navbar-nav .nav-item .nav-link {
+		padding: 1.1em 1em !important;
+	}
+	#mainNav.navbar-shrink {
+		padding-top: 0;
+		padding-bottom: 0;
+		background-color: #212529;
+	}
+	#mainNav.navbar-shrink .navbar-brand {
+		font-size: 1.25em;
+		padding: 12px 0;
+	}
+}
+
+header.masthead {
+	text-align: center;
+	color: #fff;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center center;
+	background-size: cover;
+	height: 300px;
+}
+
+header.masthead .intro-lead-in {
+	font-size: 80px;
+	font-weight: 700;
+	font-family: "Finger Paint", cursive;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	text-align: center;
+}
+
+@media ( min-width : 768px) {
+	header.masthead .intro-lead-in {
+		font-size: 80px;
+		font-weight: 700;
+		font-family: "Finger Paint", cursive;
+		position: absolute;
+		top: 20%;
+		transform: translate(-50%, -50%);
+		color: white;
+		text-align: center;
+		font-family: "Finger Paint", cursive;
+	}
+}
+
+.tag-badge {
+	position: absolute;
+	bottom: 80px;
+	left: 5px;
+}
+
+#user_header_mini {
+	width: 100%;
+	left: 0;
+	margin-top: 54px;
+	/* z-index: 40; */
+	background: rgba(255, 255, 255, 0.97);
+	-webkit-box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+	display: table;
+	height: 60px;
+}
+
+.balloon {
+	position: relative;
+	display: inline-block;
+}
+
+.balloon span {
+	display: inline-block;
+	padding: 10px;
+	color: white;
+	background: #007bff;
+	border-radius: 20px;
+}
+
+.balloon:after {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-style: solid;
+}
+
+.balloon.test_3:after, .balloon.test_4:after {
+	border-width: 10px 15px;
+	top: 50%;
+	margin-top: -10px;
+}
+
+.balloon.test_3:after {
+	border-color: transparent #007bff transparent transparent;
+	left: -25px;
+}
+
+.balloon.test_4:after {
+	border-color: transparent transparent transparent #007bff;
+	right: -25px;
+}
+
+.tag {
+	display: inline-flex;
+	background: #fff;
+	height: 35px;
+	color: #333;
+	border: 1px #e2e2e2 solid;
+	padding: 6px 12px 6px 12px;
+	border-radius: 2px;
+	font-size: 14px;
+	justify-content: flex-start;
+}
+
+.preview {
+	border-radius: 5px;
+	border: 1px gray;
+	border-style: dashed;
+	width: 92%;
+	background-color:#f0f1f2;
+}
+
+#star_grade a {
+	text-decoration: none;
+	color: gray;
+}
+
+#star_grade a.on {
+	color: #fec503;
+}
+
+.filebox input[type="file"] { /* 파일 필드 숨기기 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+
+.tagDel{
+    cursor: pointer;
+
+}
+
+.border{
+	border: #aaa 1px solid; 
+}
+
+.review a {
+	cursor: pointer;
+}
+
+
+.nearby_info{
+	position: absolute; 
+	top: 50%; 
+	left: 50%; 
+	color: white;
+	transform: translate(-50%, -50%);
+	visibility: hidden; 
+}
+
+.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+.map_wrap {position:relative;width:100%;height:100%;}
+#menu_wrap {width:100%; margin:10px 0 10px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+#menu_wrap .option{text-align: center;}
+#menu_wrap .option p {margin:10px 0;}  
+#menu_wrap .option button {margin-left:5px;}
+#placesList li {list-style: none;}
+#placesList .item span {display: block;margin-top:4px;}
+#placesList .item .info{padding:10px 0 10px 55px;}
+#placesList .info .jibun {padding-left:26px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList .info .tel {color:#009900;}
+#placesList .item .markerbg {float:left;position:absolute;width:36px; height:39px;margin:10px 0 0 10px;background:url(/img/maker_food_sm.png) no-repeat;}

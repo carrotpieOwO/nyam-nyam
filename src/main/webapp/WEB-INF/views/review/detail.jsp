@@ -14,8 +14,18 @@
           <!-- /.avatar --></div>
           <div class="ml-2">
           <p class="my-auto">@${review.username}</p>
-        </div>  
-        <button class="btn btn-primary ml-auto"><i class="fas fa-user-plus"></i> 팔로우</button>  
+        </div> 
+        <c:choose> 
+	        <c:when test="${review.username==principal.username}">
+	        	<div class="ml-auto">
+	    		 <a href="/review/modify/${review.id}" class="btn btn-outline-dark">수정</a>  
+	        	<button id="post-delete-submit" value="${review.id}" class="btn btn-outline-danger">삭제</button>
+	        	</div>
+	        </c:when>
+	        <c:otherwise>
+	          <button class="btn btn-primary ml-auto"><i class="fas fa-user-plus"></i> 팔로우</button>  
+	        </c:otherwise>
+        </c:choose>
         </div>
             </div>
     </div>
@@ -66,7 +76,7 @@
             <div class="card-header">
               
               <!-- 좋아요 -->
-               <div style="position:relative;" id="like-${like.id}">
+               <div class="my-auto" style="position:relative;">
                   <a onclick="like(${review.id})"  style="position: absolute; top:50%; left:-5px; cursor: pointer;">
                  <c:choose>
 	                 <c:when test="${review.like eq true}">
@@ -77,9 +87,21 @@
 	                 </c:otherwise>
                  </c:choose>
                   </div>
-            <i class="far fa-comment-dots ml-4" style="font-size: 25px;"></i> 
-              <i class="far fa-bookmark float-right" style="font-size: 25px;"></i><br>
+            <i class="far fa-comment-dots ml-4" style="font-size: 25px;"></i>
+            
+            <!-- 북마크 --> 
+             <div class=" float-right mr-2" style="position:relative;">
+                  <a onclick="clipping(${review.id})"  style="position: absolute; top:50%; left:-5px; cursor: pointer;">
+                  <c:choose>
+	                 <c:when test="${review.clipping eq true}">
+	                  	 <i id="clipping-item-${review.id}" class="fas fa-bookmark float-right text-warning" style="font-size: 25px;"></i></a>    	 
+	                 </c:when>
+	                 <c:otherwise>
+	                  	 <i id="clipping-item-${review.id}" class="far fa-bookmark float-right" style="font-size: 25px;"></i></a>    	 
+	                 </c:otherwise>
+                 </c:choose>
              
+             </div>
             </div>
             
             <!-- 댓글 리스트  -->
@@ -454,11 +476,13 @@ function addMarker(position, idx, title) {
 		comment_item += '<i class="fas fa-times-circle bg-white rounded-circle"></i></a></div></div>';
 		comment_item += '<div class="profile">';
 		comment_item += '<a href="/user/mypage/'+username+'">';
-		comment_item += '<img src="/media/'+profile+'" class="rounded-circle border" width="40" height="40"></a>';
+		comment_item += '<img src="/media/'+profile+'" class="rounded-circle border" width="40" height="40"></a></div>';
 		comment_item += '<p class="my-auto" style="font-size: 11px;">'+createDate+'</p>';
 		comment_item += '</div></div>';
 		$('#comment-items').append(comment_item);
+		$('#content').val('');
 	 }
+
 
 		
 		function commentDelete(commentId){
@@ -497,10 +521,10 @@ function addMarker(position, idx, title) {
 					if (r == 'ok') {
 						let likeCount = $('#likeCount').text();
 						if($('#like-item-'+reviewId).hasClass('far fa-heart')){
-							$('#like-item-'+reviewId).attr('class','fas fa-heart text-danger');
+							$('#like-item-'+reviewId).attr('class','fas fa-heart float-right text-danger');
 							$('#likeCount').text( Number(likeCount)+1);
 						}else{
-							$('#like-item-'+reviewId).attr('class','far fa-heart');
+							$('#like-item-'+reviewId).attr('class','far fa-heart float-right');
 							$('#likeCount').text(Number(likeCount)-1);
 							}	
 					}else{
@@ -511,7 +535,56 @@ function addMarker(position, idx, title) {
 				});
 			
 			}
+
+		//북마크
+		function clipping(reviewId){
+			var data = {
+					reviewId: $('#reviewId').val(),
+					userId: $('#userId').val()
+				};
+		
+				$.ajax({
+					type : 'POST',
+					url : '/clipping/'+reviewId,
+					data : JSON.stringify(data),
+					contentType : 'application/json; charset=utf-8', //보내는 데이터
+					dataType : 'text' //응답 데이터, 데이터 주고받을땐 무조건 스트링으로 인식해서 이렇게 해줘야 제이슨으로 인식함
+				}).done(function(r) { //그래서 여기서 받을 때 잭슨이 제이슨을 자바스크립트로 바꿔줘서 자바스크립트 오브젝트화됨
+					console.log(r);
+					if (r == 'ok') {
+						if($('#clipping-item-'+reviewId).hasClass('far fa-bookmark')){
+							$('#clipping-item-'+reviewId).attr('class','fas fa-bookmark text-warning');
+						}else{
+							$('#clipping-item-'+reviewId).attr('class','far fa-bookmark');
+							}	
+					}else{
+							alert('클리핑 실패');
+						}
+				}).fail(function(r) {
+					alert('댓글 삭제 실패');
+				});
+			
+			}
+		
 	
+	//게시글 삭제
+	$('#post-delete-submit').on('click', function() {
+		var id= $('#post-delete-submit').val();
+		$.ajax({
+			type : 'DELETE',
+			url : '/review/delete/'+id,
+			dataType : 'json' //응답 데이터, 데이터 주고받을땐 무조건 스트링으로 인식해서 이렇게 해줘야 제이슨으로 인식함
+		}).done(function(r) { //그래서 여기서 받을 때 잭슨이 제이슨을 자바스크립트로 바꿔줘서 자바스크립트 오브젝트화됨
+			if (r.statusCode == 200) {
+				alert('글이 삭제 되었습니다.');
+				location.href = '/';
+			}else{
+				alert('글 삭제 실패');
+			}
+		}).fail(function(r) {
+			alert('글 삭제 실패');
+		});
+	});
 	
 </script>
 </body>

@@ -24,4 +24,6 @@ public class RespDetailDto {
 	private Timestamp createDate;
 	private boolean like;
 	private int likeCount;
+	private boolean clipping;
+	private int clippingCount;
 }

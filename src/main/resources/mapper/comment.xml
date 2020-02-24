@@ -13,10 +13,10 @@
 		order by c.id
 	</select>
 
-	<insert id="save" parameterType="com.carrot.nyam.model.comment.dto.ReqWriteDto">
-		 <selectKey resultType="int" keyProperty="id" order="BEFORE">
-        SELECT MAX(id)+1 FROM comment       
-    </selectKey> 
+
+	<insert id="save" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.carrot.nyam.model.comment.dto.ReqWriteDto">
+
 		insert into comment(userId, reviewId, content, createDate)
 		values(#{userId}, #{reviewId}, #{content}, now())
 	</insert>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.nyam.repository.ReviewRepository">
+
+	
+	<insert id="write" parameterType="com.carrot.nyam.model.review.dto.ReqWriteDto" >
+    <selectKey resultType="int" keyProperty="id" order="BEFORE">
+        SELECT MAX(id)+1 FROM review       
+    </selectKey>    
+		
+		insert into review(image1, image2, image3, shopName, content, rating, price, location, userId, createDate) 
+		values(#{image1}, #{image2}, #{image3}, #{shopName}, #{content}, #{rating}, #{price}, #{location}, #{userId}, now())
+		
+	</insert>
+	
+	<!-- 상세정보 보기 -->
+	<select id="findByReviewId"
+		resultType="com.carrot.nyam.model.review.dto.RespDetailDto">
+		select r.*, u.username, u.profile from review r inner join user as u on r.userId = u.id where r.id=#{id};	
+	</select>
+	
+	<!-- 상세정보 근처맛집 리스트 좋아요 구현 후 좋아요 순으로 재정렬하기-->
+	<select id="findByLocation"
+		resultType="com.carrot.nyam.model.review.dto.ReqNearbyDto">
+		<![CDATA[
+		select id, image1, shopName, location from review where location regexp #{location} and id not in (#{id}) order by id desc;
+		]]>
+			
+	</select>
+</mapper>

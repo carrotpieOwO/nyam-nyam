@@ -16,6 +16,7 @@ public class RespListDto {
 	private int rating;
 	private String shopName;
 	private String location;
+	private int userId;
 	private String username;
 	private String profile;
 	private String insta;
@@ -23,4 +24,5 @@ public class RespListDto {
 	private String introduction;
 	private int count;
 	private int likeCount;
+	private int clippingCount;
 }

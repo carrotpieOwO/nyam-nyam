@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.nyam.repository.UserRepository">
+
+	<!-- 회원가입 -->
+	<insert id="save">
+		insert into user(username, password, email, address,
+		createDate)
+		values(#{username}, #{password}, #{email}, #{address},
+		now())
+	</insert>
+
+	<!-- ID 중복확인 -->
+	<select id="findByUsername" resultType="int">
+		select count(*) from user
+		where username = #{username}
+	</select>
+
+	<!-- 로그인 테스트해보고 지우기 -->
+	<select id="findByUsernameAndPassword"
+		resultType="com.carrot.nyam.model.user.User">
+		select id, username, email, address, profile, itroduction,
+		insta, blog
+		from user where username = #{username} and
+		password=#{password}
+	</select>
+
+	<!-- 세션 -->
+	<select id="authentication"
+		resultType="com.carrot.nyam.model.user.User">
+		select * from user where username = #{username}
+	</select>
+
+	<!--회원정보 수정용 쿼리 -->
+	<update id="updateProfile">
+		update user set password=#{password}, address=#{address} where id=#{id}
+	</update>
+	
+	<update id="updateUserinfo">
+		update user set profile=#{profile}, introduction=#{introduction}, insta=#{insta}, blog=#{blog} where id=#{id}
+	</update>
+
+	<!--회원정보 수정 후 세션에 덮어쓰기 위한 쿼리 -->
+	<select id="findById" resultType="com.carrot.nyam.model.user.User">
+		select id, username, email, address, profile, introduction, insta, blog, createDate from user where id = #{id}
+	</select>
+	
+	<!-- 마이페이지 리스트 -->
+	<select id="findReviewAll"
+		resultType="com.carrot.nyam.model.review.dto.RespListDto">
+		
+		select r.id, r.image1, r.rating, r.shopName, r.location, u.*, 
+		(select count(*) from review where username=#{username})count from review r inner join user as u on r.userId = u.id
+		where username = #{username} order by r.id desc
+		
+	</select>
+	
+</mapper>
