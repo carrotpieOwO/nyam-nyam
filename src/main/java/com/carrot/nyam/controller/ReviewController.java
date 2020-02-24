@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.carrot.nyam.Utils;
 import com.carrot.nyam.model.RespCM;
 import com.carrot.nyam.model.clipping.Clipping;
+import com.carrot.nyam.model.follow.Follow;
 import com.carrot.nyam.model.likes.Likes;
 import com.carrot.nyam.model.review.dto.ReqNearbyDto;
 import com.carrot.nyam.model.review.dto.ReqUpdateDto;
@@ -36,6 +37,7 @@ import com.carrot.nyam.model.review.dto.RespDetailDto;
 import com.carrot.nyam.model.tag.Tag;
 import com.carrot.nyam.model.user.User;
 import com.carrot.nyam.repository.ClippingRepository;
+import com.carrot.nyam.repository.FollowRepository;
 import com.carrot.nyam.repository.LikesRepository;
 import com.carrot.nyam.service.CommentService;
 import com.carrot.nyam.service.ReviewService;
@@ -57,6 +59,9 @@ public class ReviewController {
 	
 	@Autowired
 	private ClippingRepository clippingRepository;
+	
+	@Autowired
+	private FollowRepository followRepository;
 
 	@Value("${file.path}")
 	private String fileRealPath;
@@ -88,7 +93,13 @@ public class ReviewController {
 		if(clipping!=null) {
 			dto.setClipping(true);
 		}
-			
+		//팔로우 여부
+		Follow follow = followRepository.findByFromUserAndToUser(principal.getId(), dto.getUserId());
+		if(follow!=null) {
+			dto.setFollow(true);
+		}
+		System.out.println(dto);
+
 		//태그불러오기
 		int reviewId = dto.getId();
 	

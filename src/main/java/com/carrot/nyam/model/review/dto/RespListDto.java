@@ -25,4 +25,7 @@ public class RespListDto {
 	private int count;
 	private int likeCount;
 	private int clippingCount;
+	private boolean follow;
+	private int followCount;
+	private int followerCount;
 }

@@ -1,4 +1,4 @@
-package com.carrot.nyam.model.likes.dto;
+package com.carrot.nyam.model.follow.dto;
 
 import com.carrot.nyam.model.RespCM;
 
@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReqLikeDto {
+public class ReqFollowDto {
 	private RespCM status;
 	private int id;
-	private int userId;
-	private int reviewId;
-
+	private int fromUser;
+	private int toUser;
 }

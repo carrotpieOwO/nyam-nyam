@@ -32,11 +32,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.nyam.model.RespCM;
 import com.carrot.nyam.model.ReturnCode;
+import com.carrot.nyam.model.follow.Follow;
 import com.carrot.nyam.model.review.dto.RespListDto;
 import com.carrot.nyam.model.user.User;
 import com.carrot.nyam.model.user.dto.ReqJoinDto;
 import com.carrot.nyam.model.user.dto.ReqProfileDto;
 import com.carrot.nyam.repository.ClippingRepository;
+import com.carrot.nyam.repository.FollowRepository;
 import com.carrot.nyam.repository.LikesRepository;
 import com.carrot.nyam.repository.UserRepository;
 import com.carrot.nyam.service.MyUserDetailService;
@@ -61,6 +63,9 @@ public class UserController {
 	
 	@Autowired
 	private  UserRepository userRepository;
+	
+	@Autowired
+	private FollowRepository followRepository;
 	
 	//화면이동
 	@GetMapping("user/join")
@@ -90,13 +95,13 @@ public class UserController {
 		  }
 	  
 	  @GetMapping("user/mypage/{username}")
-		public String mypage(Model model, @PathVariable String username) {
+		public String mypage(Model model, @PathVariable String username, @AuthenticationPrincipal User principal) {
 		  
 		  List<RespListDto> dtos = userService.myPageList(username);
 		  List<String> locations = new ArrayList<>();
 		  
 		  User user = userRepository.authentication(username);
-		  
+		 		  
 		  for(RespListDto dto : dtos) {
 			  String[] loc = dto.getLocation().split("\\s");
 			  dto.setLocation(loc[2]);
@@ -104,11 +109,15 @@ public class UserController {
 			  dto.setLikeCount(likeCount);
 			  int clippingCount = clippingRepository.clippingCount(dto.getId());
 			  dto.setClippingCount(clippingCount);
+			  Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
+			  if(follow!=null) {
+				  dto.setFollow(true);
+			  }
 		  }
-		    
+		    System.out.println(dtos);
 		  	model.addAttribute("user", user);
 			model.addAttribute("reviews", dtos);
-
+		
 			return "/user/mypage";
 		}
 	

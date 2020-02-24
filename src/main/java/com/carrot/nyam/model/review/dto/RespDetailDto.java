@@ -19,6 +19,7 @@ public class RespDetailDto {
 	private String shopName;
 	private String content;
 	private String location;
+	private int userId;
 	private String username;
 	private String profile;
 	private Timestamp createDate;
@@ -26,4 +27,5 @@ public class RespDetailDto {
 	private int likeCount;
 	private boolean clipping;
 	private int clippingCount;
+	private boolean follow;
 }
