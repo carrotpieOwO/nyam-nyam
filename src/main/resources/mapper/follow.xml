@@ -19,10 +19,23 @@
 		select * from follow where fromUser=#{fromUserId} and toUser=#{toUserId};	
 	</select>
 	
-	<!-- 
 	
-	<select id="likeCount" resultType="int">
-		select count(*) from likes where reviewId=#{reviewId};
-	</select> -->
+	<select id="followerInfo" resultType="com.carrot.nyam.model.follow.dto.ReqFollowInfoDto">
+		select f.fromUser, u.username, u.profile, u.introduction from follow f inner join user as u on f.fromUser = u.id where toUser=#{toUserId};
+	</select>
+	
+	<select id="followInfo" resultType="com.carrot.nyam.model.follow.dto.ReqFollowInfoDto">
+		select f.toUser, u.username, u.profile, u.introduction from follow f inner join user as u on f.toUser = u.id where fromUser=#{fromUserId};
+	</select>
+	
+	<!-- 팔로워 수 -->
+	<select id="followerCount" resultType="int">
+		select count(*) from follow where toUser=#{toUserId};
+	</select> 
+	
+	<!-- 팔로잉수 -->
+	<select id="followCount" resultType="int">
+		select count(*) from follow where fromUser=#{fromUserId};
+	</select> 
  	
 </mapper>

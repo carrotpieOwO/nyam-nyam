@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.carrot.nyam.model.RespCM;
 import com.carrot.nyam.model.ReturnCode;
 import com.carrot.nyam.model.follow.Follow;
+import com.carrot.nyam.model.follow.dto.ReqFollowInfoDto;
 import com.carrot.nyam.model.review.dto.RespListDto;
 import com.carrot.nyam.model.user.User;
 import com.carrot.nyam.model.user.dto.ReqJoinDto;
@@ -99,7 +100,7 @@ public class UserController {
 		  
 		  List<RespListDto> dtos = userService.myPageList(username);
 		  List<String> locations = new ArrayList<>();
-		  
+		  ReqFollowInfoDto followInfo = new ReqFollowInfoDto();
 		  User user = userRepository.authentication(username);
 		 		  
 		  for(RespListDto dto : dtos) {
@@ -109,15 +110,26 @@ public class UserController {
 			  dto.setLikeCount(likeCount);
 			  int clippingCount = clippingRepository.clippingCount(dto.getId());
 			  dto.setClippingCount(clippingCount);
-			  Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
-			  if(follow!=null) {
-				  dto.setFollow(true);
-			  }
+			  int followCount = followRepository.followCount(user.getId());
+			  int followerCount = followRepository.followerCount(user.getId());
+			  dto.setFollowCount(followCount);
+			  dto.setFollowerCount(followerCount);
 		  }
+		  
+			  Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
+			  if(follow != null) {
+				  followInfo.setFromUser(principal.getId());
+				  followInfo.setToUser(user.getId());
+				  followInfo.setFollow(true);
+			  }
+			  
+			  
+			  System.out.println(followInfo);
 		    System.out.println(dtos);
 		  	model.addAttribute("user", user);
 			model.addAttribute("reviews", dtos);
-		
+			model.addAttribute("followInfo",followInfo);
+			
 			return "/user/mypage";
 		}
 	
