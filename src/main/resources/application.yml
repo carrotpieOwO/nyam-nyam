@@ -22,7 +22,7 @@ spring:
         1MB
 
 file:
-  path: E:/src/springboot-project/nyam-nyam/media/
+  path: C:/src/springboot/springboot_project/media/
   
   
   

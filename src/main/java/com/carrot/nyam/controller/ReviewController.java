@@ -231,7 +231,7 @@ public class ReviewController {
 		if(result==1) {
 			sb.append("<script>");
 			sb.append("alert('작성완료');");
-			sb.append("location.href='/';");
+			sb.append("location.href='/user/mypage/"+principal.getUsername()+"';");
 			sb.append("</script>");
 			return sb.toString();
 			

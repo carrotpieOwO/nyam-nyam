@@ -19,20 +19,20 @@
 					console.log(r);
 					if (r == 'ok') {
 						console.log(r);
-						
-						if($('.followBoolean').val() == 'true'){
+						let followerCount = $('#followerCount').text()
+						if($('#followBoolean').val() == 'true'){
 							$('#follow-true').attr('class','btn btn-primary mx-auto mt-2  text-white');
 							$('#follow-true').html('<i id="plus" class="fas fa-user-plus"></i> 팔로우');						
 							$('#follow-true').attr('id','follow-false');
-							$('.followBoolean').val('false');
-							               
+							$('#followBoolean').val('false');
+							$('#followerCount').text( Number(followerCount)-1);               
 
 						}else {
 							$('#follow-false').attr('class','btn btn-outline-dark mx-auto mt-2');
 							$('#follow-false').html('<i id="check" class="fas fa-user-check"></i> 팔로잉');						
 							$('#follow-false').attr('id','follow-true');
-							$('.followBoolean').val('true');
-
+							$('#followBoolean').val('true');
+							$('#followerCount').text( Number(followerCount)+1);
 							/* $('#like-item-'+reviewId).attr('class','far fa-heart float-right');
 							$('#likeCount').text(Number(likeCount)-1);
 							}	 */

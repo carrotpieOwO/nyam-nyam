@@ -71,7 +71,7 @@
 			
 			  <!-- Left and right controls -->
 			 <c:if test="${!empty review.image2}">
-			  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+			  <a class="carousel-control-prev my-auto" href="#demo" data-slide="prev" style="height:50%">
 			    <span class="carousel-control-prev-icon"></span>
 			  </a>
 			  <a class="carousel-control-next" href="#demo" data-slide="next">
@@ -81,7 +81,7 @@
 			</div>
           
             <div class="card-img-overlay">
-             <a type="button" class="badge badge-dark" style="opacity: 70%;"  data-toggle="modal" data-target="#like" > 
+             <a type="button" class="badge badge-dark" style="opacity: 70%;"  data-toggle="modal" data-target="#likeModal" data-submit='${review.id}'> 
                <h4 class="my-auto mx-auto" style="color: white; letter-spacing: 4px"> <i id="likeCount" class="far fa-heart">${review.likeCount}</i></h4></a>
             </div>
             <div class="card-header">
@@ -647,5 +647,7 @@ function addMarker(position, idx, title) {
 	
 	
 </script>
+
+<%@include file="../modal/likeModal.jsp"%>
 </body>
 </html>

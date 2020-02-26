@@ -21,7 +21,7 @@
 	</select>
 	
 	<select id="clippingCount" resultType="int">
-		select count(*) from clipping where reviewId=#{reviewId};
+		select count(*) from clipping where userId=#{userId};
 	</select>
 	
 	<!-- 북마크 모아보기 리스트 -->

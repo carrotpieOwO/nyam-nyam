@@ -34,10 +34,13 @@ import com.carrot.nyam.model.RespCM;
 import com.carrot.nyam.model.ReturnCode;
 import com.carrot.nyam.model.follow.Follow;
 import com.carrot.nyam.model.follow.dto.ReqFollowInfoDto;
+import com.carrot.nyam.model.follow.dto.ReqFollowMeDto;
+import com.carrot.nyam.model.likes.dto.ReqLikeMeDto;
 import com.carrot.nyam.model.review.dto.RespListDto;
 import com.carrot.nyam.model.user.User;
 import com.carrot.nyam.model.user.dto.ReqJoinDto;
 import com.carrot.nyam.model.user.dto.ReqProfileDto;
+import com.carrot.nyam.model.user.dto.RespAlertDto;
 import com.carrot.nyam.repository.ClippingRepository;
 import com.carrot.nyam.repository.FollowRepository;
 import com.carrot.nyam.repository.LikesRepository;
@@ -97,30 +100,33 @@ public class UserController {
 	  
 	  @GetMapping("user/mypage/{username}")
 		public String mypage(Model model, @PathVariable String username, @AuthenticationPrincipal User principal) {
-		  
-		  List<RespListDto> dtos = userService.myPageList(username);
+		  User user = userRepository.authentication(username);
+
+		  List<RespListDto> dtos = userService.myPageList(username, user.getId());
 		  List<String> locations = new ArrayList<>();
 		  ReqFollowInfoDto followInfo = new ReqFollowInfoDto();
-		  User user = userRepository.authentication(username);
 		 		  
 		  for(RespListDto dto : dtos) {
 			  String[] loc = dto.getLocation().split("\\s");
 			  dto.setLocation(loc[2]);
 			  int likeCount = likesRepository.likeCount(dto.getId());
 			  dto.setLikeCount(likeCount);
-			  int clippingCount = clippingRepository.clippingCount(dto.getId());
+			  int clippingCount = clippingRepository.clippingCount(user.getId());
 			  dto.setClippingCount(clippingCount);
-			  int followCount = followRepository.followCount(user.getId());
-			  int followerCount = followRepository.followerCount(user.getId());
-			  dto.setFollowCount(followCount);
-			  dto.setFollowerCount(followerCount);
+			 
 		  }
 		  
 			  Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
+			  int followCount = followRepository.followCount(user.getId());
+			  int followerCount = followRepository.followerCount(user.getId());
+			  followInfo.setFollowCount(followCount);
+			  followInfo.setFollowerCount(followerCount);
+			  
 			  if(follow != null) {
 				  followInfo.setFromUser(principal.getId());
 				  followInfo.setToUser(user.getId());
 				  followInfo.setFollow(true);
+				  
 			  }
 			  
 			  
@@ -133,6 +139,45 @@ public class UserController {
 			return "/user/mypage";
 		}
 	
+	  //알림 모달
+	  @GetMapping("/user/alert")
+		public @ResponseBody List<RespAlertDto> followInfo(Model model, @AuthenticationPrincipal User principal) {
+			List<ReqLikeMeDto> likeDtos = likesRepository.findByLikeMe(principal.getId());
+			List<ReqFollowMeDto> followDtos = followRepository.findByFollowMe(principal.getId());
+			List<RespAlertDto> dtos = new ArrayList<>();
+			
+	
+			  for(ReqLikeMeDto likeDto : likeDtos) {
+				  RespAlertDto dto = new RespAlertDto();
+				  dto.setUsername(likeDto.getUsername());
+				  dto.setProfile(likeDto.getProfile());
+				  dto.setImage1(likeDto.getImage1());
+				  dto.setCreateDate(likeDto.getCreateDate());
+				  dto.setLike(true);
+				  dtos.add(dto);
+			  }
+
+			  for(ReqFollowMeDto followDto : followDtos) {
+				  RespAlertDto dto = new RespAlertDto();
+				  int userId = followDto.getFromUser();
+				  Follow follow = followRepository.findByFromUserAndToUser(principal.getId(), userId);
+				  dto.setFromUser(followDto.getFromUser());
+				  dto.setUsername(followDto.getUsername());
+				  dto.setProfile(followDto.getProfile());
+				  dto.setCreateDate(followDto.getCreateDate());
+				  dto.setFollowMe(true);
+				  if(follow!=null) {
+					  dto.setFollow(true);
+				  }
+				  dtos.add(dto);
+			  
+		  }		
+		  	System.out.println(followDtos);
+		  	System.out.println(likeDtos);
+			System.out.println(dtos);
+			return dtos;
+		}
+	  
 	//회원가입 구현
 	@PostMapping("user/join")
 	public ResponseEntity<?> join(@Valid @RequestBody ReqJoinDto dto, BindingResult bindingResult) {

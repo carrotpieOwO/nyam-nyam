@@ -15,7 +15,7 @@
         
         <!-- Modal body -->
         <div class="modal-body" id="follow-container" >
-          <!-- 유저1명 -->
+          <p class="text-center">팔로잉한 유저가 없습니다.</p>
           
             
         </div>
@@ -43,7 +43,7 @@
         
         <!-- Modal body -->
         <div class="modal-body" id="follower-container" >
-          <!-- 유저1명 -->
+         <p class="text-center">팔로우한 유저가 없습니다.</p>
           
             
         </div>
@@ -94,17 +94,20 @@
 					res += '<div class="ml-2">';
 					res += '<p class="my-auto">@'+username+'</p>';
 					res += '<p class="my-auto" style="font-size: 11px;">';
-					res += '<strong>'+followCount+'</strong> 팔로잉';
-					res += '<strong>'+followerCount+'</strong> 팔로워</p></div>';
+					res += '팔로잉<strong id="mFollowCount-'+toUser+'">'+followCount+'</strong> ';
+					res += ' 팔로워<strong id="mFollowerCount-'+toUser+'">'+followerCount+'</strong></p></div>';
 					if(principal != toUser){
 						if(r[i].follow == true){
-							res+='<input type="hidden" class="followBoolean" value="true">';
-							res+='<a onclick="follow('+principal+','+toUser+')" id="follow-true-modal" class="btn btn-outline-dark ml-auto mt-2">';
+							
+							res+='<input type="hidden" id="followBoolean-'+toUser+'" value="true">';
+							res+='<a onclick="mFollow('+principal+','+toUser+')" id="follow-true-modal-'+toUser+'" class="btn btn-outline-dark ml-auto mt-2">';
 							res+='<i id="check" class="fas fa-user-check"></i> 팔로잉</a>';
+							
 						}else{
-							res+='<input type="hidden" class="followBoolean" value="false">';
-							res+='<a onclick="follow('+principal+','+toUser+')" id="follow-false-modal" class="btn btn-primary ml-auto mt-2  text-white">';
-							res+='<i id="plus" class="fas fa-user-plus"></i> 팔로우</a>'	
+							res+='<input type="hidden" id="followBoolean-'+toUser+'" value="false">';
+							res+='<a onclick="mFollow('+principal+','+toUser+')" id="follow-false-modal-'+toUser+'" class="btn btn-primary ml-auto mt-2  text-white">';
+							res+='<i id="plus" class="fas fa-user-plus"></i> 팔로우</a>';
+								
 						}
 
 					}
@@ -158,16 +161,16 @@
 					res += '<div class="ml-2">';
 					res += '<p class="my-auto">@'+username+'</p>';
 					res += '<p class="my-auto" style="font-size: 11px;">';
-					res += '<strong>'+followCount+'</strong> 팔로잉';
-					res += '<strong>'+followerCount+'</strong> 팔로워</p></div>';
+					res += '팔로잉<strong id="mFollowCount-'+fromUser+'">'+followCount+'</strong> ';
+					res += ' 팔로워<strong id="mFollowerCount-'+fromUser+'">'+followerCount+'</strong></p></div>';
 					if(principal != fromUser){
 						if(r[i].follow == true){
-							res+='<input type="hidden" class="followBoolean" value="true">';
-							res+='<a onclick="mFollow('+principal+','+fromUser+')" id="follower-true-modal" class="btn btn-outline-dark ml-auto mt-2">';
+							res+='<input type="hidden" id="followBoolean-'+fromUser+'" value="true">';
+							res+='<a onclick="mFollow('+principal+','+fromUser+')" id="follower-true-modal-'+fromUser+'" class="btn btn-outline-dark ml-auto mt-2">';
 							res+='<i id="check" class="fas fa-user-check"></i> 팔로잉</a>';
 						}else{
-							res+='<input type="hidden" class="followBoolean" value="false">';
-							res+='<a onclick="mFollow('+principal+','+fromUser+')" id="follower-false-modal" class="btn btn-primary ml-auto mt-2  text-white">';
+							res+='<input type="hidden" id="followBoolean-'+fromUser+'" value="false">';
+							res+='<a onclick="mFollow('+principal+','+fromUser+')" id="follower-false-modal-'+fromUser+'" class="btn btn-primary ml-auto mt-2  text-white">';
 							res+='<i id="plus" class="fas fa-user-plus"></i> 팔로우</a>'	
 						}
 
@@ -208,29 +211,58 @@
 					console.log(r);
 					if (r == 'ok') {
 						console.log(r);
+						console.log($('#followCount').text());
+						let username = $('#username').text();
+						let mFollowCount = $('#mFollowCount').text();
+						let mFollowerCount = $('#mFollowerCount').text();
+						let followCount = $('#followCount').text();
+						let principal = ${principal.id};
+						let myUser = ${user.id};
+						let toUser = toUserId;
+						let fromUser = fromUserId;
+						console.log('마이유저:'+myUser);
 						
-						if($('.followBoolean').val() == 'true'){
-							$('#follow-true-modal').attr('class','btn btn-primary ml-auto mt-2 text-white');
-							$('#follow-true-modal').html('<i id="plus" class="fas fa-user-plus"></i> 팔로우');						
-							$('#follow-true-modal').attr('id','follow-false-modal');
-							$('#follower-true-modal').attr('class','btn btn-primary ml-auto mt-2 text-white');
-							$('#follower-true-modal').html('<i id="plus" class="fas fa-user-plus"></i> 팔로우');						
-							$('#follower-true-modal').attr('id','follower-false-modal');
-							$('.followBoolean').val('false');
-							               
+						if($('#followBoolean-'+toUserId).val() == 'true'){
+							$('#follow-true-modal-'+toUserId).attr('class','btn btn-primary ml-auto mt-2 text-white');
+							$('#follow-true-modal-'+toUserId).html('<i id="plus" class="fas fa-user-plus"></i> 팔로우');
+							$('#follow-true-modal-'+toUserId).attr('id','follow-false-modal-'+toUserId);						
+							$('#follower-true-modal-'+toUserId).attr('class','btn btn-primary ml-auto mt-2 text-white');
+							$('#follower-true-modal-'+toUserId).html('<i id="plus" class="fas fa-user-plus"></i> 팔로우');	
+							$('#follower-true-modal-'+toUserId).attr('id','follower-false-modal-'+toUserId);					
+							$('#followBoolean-'+toUserId).val('false');
+							$('#mFollowerCount-'+toUserId).text( Number($('#mFollowerCount-'+toUserId).text())-1);
+							 if(principal==fromUser){
+								$('#followCount').text( Number($('#followCount').text())-1);
+								}
+							 if(toUser==myUser){
+								 $('#follow-true').attr('class','btn btn-primary ml-auto mt-2  text-white');
+									$('#follow-true').html('<i id="plus" class="fas fa-user-plus"></i> 팔로우');						
+									$('#follow-true').attr('id','follow-false');
+									$('#followBoolean').val('false');
+									$('#followerCount').text( Number($('#followerCount').text())-1);
+								 }
+							
 
 						}else {
-							$('#follow-false-modal').attr('class','btn btn-outline-dark ml-auto mt-2');
-							$('#follow-false-modal').html('<i id="check" class="fas fa-user-check"></i> 팔로잉');						
-							$('#follow-false-modal').attr('id','follow-true-modal');
-							$('#follower-false-modal').attr('class','btn btn-outline-dark ml-auto mt-2');
-							$('#follower-false-modal').html('<i id="check" class="fas fa-user-check"></i> 팔로잉');						
-							$('#follower-false-modal').attr('id','follower-true-modal');
-							$('.followBoolean').val('true');
-
-							/* $('#like-item-'+reviewId).attr('class','far fa-heart float-right');
-							$('#likeCount').text(Number(likeCount)-1);
-							}	 */
+							$('#follow-false-modal-'+toUserId).attr('class','btn btn-outline-dark ml-auto mt-2');
+							$('#follow-false-modal-'+toUserId).html('<i id="check" class="fas fa-user-check"></i> 팔로잉');						
+							$('#follow-false-modal-'+toUserId).attr('id','follow-true-modal-'+toUserId);
+							$('#follower-false-modal-'+toUserId).attr('class','btn btn-outline-dark ml-auto mt-2');
+							$('#follower-false-modal-'+toUserId).html('<i id="check" class="fas fa-user-check"></i> 팔로잉');						
+							$('#follower-false-modal-'+toUserId).attr('id','follower-true-modal-'+toUserId);
+							$('#followBoolean-'+toUserId).val('true');
+							$('#mFollowerCount-'+toUserId).text( Number($('#mFollowerCount-'+toUserId).text())+1);
+							 if(principal==fromUser){
+								$('#followCount').text( Number($('#followCount').text())+1);
+							}
+							 if(toUser==myUser){
+								 $('#follow-false').attr('class','btn btn-outline-dark ml-auto mt-2');
+									$('#follow-false').html('<i id="check" class="fas fa-user-check"></i> 팔로잉');						
+									$('#follow-false').attr('id','follow-true');
+									$('#followBoolean').val('true');
+									$('#followerCount').text( Number($('#followerCount').text())+1);
+								 } 
+							
 					}
 					}else{
 							alert('좋아요 실패');

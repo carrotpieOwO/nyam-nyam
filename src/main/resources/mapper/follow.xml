@@ -38,4 +38,9 @@
 		select count(*) from follow where fromUser=#{fromUserId};
 	</select> 
  	
+ 	<!-- 팔로우 알림 -->
+	<select id="findByFollowMe" resultType="com.carrot.nyam.model.follow.dto.ReqFollowMeDto">
+		select f.*, u.username, u.profile from follow f inner join user u on fromUser = u.id where toUser=#{userId};  
+	</select>
+	
 </mapper>

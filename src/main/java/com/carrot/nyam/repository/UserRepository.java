@@ -15,7 +15,7 @@ public interface UserRepository {
 	int updateProfile(int id, String password, String address);
 	int updateUserinfo(int id, String profile, String introduction, String insta, String blog);
 	User findById(int id);
-	List<RespListDto> findReviewAll(String username);
+	List<RespListDto> findReviewAll(String username, int userId);
 	
 
 }

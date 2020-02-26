@@ -24,5 +24,18 @@
 	<select id="likeCount" resultType="int">
 		select count(*) from likes where reviewId=#{reviewId};
 	</select>
+	 
+	<select id="likeList" resultType="com.carrot.nyam.model.likes.dto.ReqLikeInfoDto">
+		select l.id, l.userId, u.username, u.profile from likes l inner join user u on l.userId = u.id where reviewId = #{reviewId} order by l.id	
+	</select>
+	
+	<!-- 좋아요 알림 -->
+ 	<select id="findByLikeMe" resultType="com.carrot.nyam.model.likes.dto.ReqLikeMeDto">
+		select l.*, u.username, u.profile, r.image1
+		from likes l inner join user u on l.userId = u.id
+		inner join review r on l.reviewId = r.id 
+		where l.reviewId in 
+		(select id from review where r.userId = #{userId}) order by id desc 
+	</select>
  	
 </mapper>

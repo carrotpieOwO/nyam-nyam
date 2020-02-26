@@ -90,8 +90,8 @@ public class UserService {
 	}
 	
 	//마이페이지 리스트
-	public List<RespListDto> myPageList(String username){
-		return userRepository.findReviewAll(username);
+	public List<RespListDto> myPageList(String username, int userId){
+		return userRepository.findReviewAll(username, userId);
 	}
 	
 

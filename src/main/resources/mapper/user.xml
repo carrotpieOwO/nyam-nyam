@@ -51,9 +51,10 @@
 	<select id="findReviewAll"
 		resultType="com.carrot.nyam.model.review.dto.RespListDto">
 		
-		select r.id, r.image1, r.rating, r.shopName, r.location, u.*, 
-		(select count(*) from review where username=#{username})count from review r inner join user as u on r.userId = u.id
-		where username = #{username} order by r.id desc
+		select r.id, r.image1, r.shopName, r.location, u.*, 
+		(select count(*) from review where userId=#{userId})count from review r inner join user as u on r.userId = u.id
+		where u.username =#{username} order by r.id desc;
+
 		
 	</select>
 	

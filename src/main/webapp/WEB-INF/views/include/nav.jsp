@@ -52,9 +52,8 @@
 						<a class="dropdown-item" href="/user/userinfo/${principal.id}">프로필 수정</a> 
 						<a class="dropdown-item" href="/logout">로그아웃</a>
 					</div></li>
-					
-						
-						<a class="nav-link mr-3" href="/user/logout"><i class="far fa-bell" style="font-size:20px"></i></a></li>
+						<a class="nav-link mr-3" data-toggle="modal" data-target="#alertModal" data-submit="${principal.id}">
+						<i class="far fa-bell" style="font-size:20px"></i></a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="nav-item">
@@ -68,3 +67,4 @@
 </div>
 </nav>
 </div>
+<%@include file="../modal/alertModal.jsp"%>

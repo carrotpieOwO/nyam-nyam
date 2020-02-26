@@ -25,15 +25,19 @@
           	</c:when>
           </c:choose>
           <c:choose>
-			<c:when test="${not empty ruser.blog}">
+			<c:when test="${not empty user.blog}">
           <a href="${user.blog}" target="_blank" class="border ml-2 text-center rounded-circle" style="width: 27px; height: 27px;">
           <i class="fas fa-desktop" style="color: #aaa;"></i></a>
           	</c:when>
        	</c:choose>
         </div>
           <div class="ml-5 mb-3">
-          <a type="button" class="tag" data-toggle="modal" data-target="#followerModal" data-submit='${user.id}' >팔로워 ${reviews[0].followerCount}</a>
-          <a type="button" class="tag" data-toggle="modal" data-target="#followModal" data-submit='${user.id}'>팔로잉 ${reviews[0].followCount}</a>
+          
+          <a type="button" class="tag" data-toggle="modal" data-target="#followerModal" data-submit='${user.id}'>
+          		팔로워  <span class="ml-1" id="followerCount">${followInfo.followerCount}</span></a>
+          <a type="button" class="tag" data-toggle="modal" data-target="#followModal" data-submit='${user.id}'>
+          		팔로잉  <span class="ml-1" id="followCount">${followInfo.followCount}</span></a>
+          
         </div>
      
       <div class="row ml-5">
@@ -49,12 +53,12 @@
         <c:otherwise>       	 	
        	 	<c:choose>
        	 		<c:when test="${followInfo.follow eq true}">
-       	 			<input type="hidden" class="followBoolean" value="true">
+       	 			<input type="hidden" id="followBoolean" value="true">
        	 			<a onclick="follow(${principal.id},${user.id})" id="follow-true" class="btn btn-outline-dark mx-auto mt-2">
        	 			<i id="check" class="fas fa-user-check"></i> 팔로잉</a>
        	 		</c:when>
        	 		<c:otherwise>
-       	 			<input type="hidden" class="followBoolean" value="false">
+       	 			<input type="hidden" id="followBoolean" value="false">
        	 			<a onclick="follow(${principal.id},${user.id})" id="follow-false" class="btn btn-primary mx-auto mt-2  text-white">
        	 			<i id="plus" class="fas fa-user-plus"></i> 팔로우</a>
        	 		</c:otherwise>
@@ -71,20 +75,33 @@
   <div id="switch_sex_type" >
     <nav>
   <ul id="category" class="d-flex justify-content-center" >
-  
+  	<c:choose>
+  	<c:when test="${not empty reviews}">
     <li style="width: 300px;" ><a href="?c=SwitchTabType" ><i class="far fa-images"></i> ${reviews[0].count} 개</a></li>
     <li style="width: 300px;">
       <a href="javascript:getClippings(${user.id})"><i class="fas fa-bookmark"></i> ${reviews[0].clippingCount} 개</a>
     </li>
+    </c:when>
+    <c:otherwise>
+    <li style="width: 300px;" ><a href="?c=SwitchTabType" ><i class="far fa-images"></i> 0개</a></li>
+    <li style="width: 300px;">
+      <a href="javascript:getClippings(${user.id})"><i class="fas fa-bookmark"></i> 0개</a>
+    </li>
+    </c:otherwise>
+    </c:choose>
   </ul>  
 </nav>
   </div>
+  
     <!--디테일 -->
     <section>
     <div class="container mt-3">
+    <div class="row" id="review-container">
+    <c:choose>
+    <c:when test="${not empty reviews}">
       <c:forEach var="review" items="${reviews}">
         <!--카드시작-->
-        <div class="row" id="review-container">
+        
         <div class="col-md-3" id="review-cards">
           <div class="card review" >
             <a href="/review/${review.id}"><img class="card-img-top" src="/media/${review.image1}" width="250" height="250">
@@ -146,13 +163,24 @@
               <i class="far fa-heart ml-3"> ${review.likeCount}</i> 
               <i class="far fa-bookmark mr-3"> ${review.clippingCount }</i>
             </div>
-  
+
           </div>
-        </div>
         </div>
           <!--카드 끝-->
           </c:forEach>
-       
+          
+          </c:when>
+          <c:otherwise>
+          
+          
+          
+          
+          
+          	<p class="mx-auto">등록한 리뷰가 없습니다.</p>
+          </c:otherwise>
+          </c:choose>
+          
+       </div>
       </div>
    
   </section>
@@ -193,8 +221,7 @@
 		}).done(function(r) {
 			console.log(r);
 			if(r.length != 0){
-
-				var res ='';
+				var res = '';
 			for(i=0; i<r.length; i++){
 				console.log(r[i].image1);
 				var reviewId = r[i].id;
@@ -240,8 +267,9 @@
 
 				}else{
 					$('#review-cards').remove();
-					$('#review-container').text('보관한 사진이 없습니다.');
-
+					$('#review-container').attr('class','row justify-content-center');
+					$('#review-container').text('보관한 리뷰가 없습니다.');
+					
 
 					}
 			
@@ -252,6 +280,6 @@
 	
 </script>
 
-<%@include file="../include/modal.jsp"%>
+<%@include file="../modal/followModal.jsp"%>
 </body>
 </html>

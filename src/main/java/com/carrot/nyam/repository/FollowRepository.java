@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.carrot.nyam.model.follow.Follow;
 import com.carrot.nyam.model.follow.dto.ReqFollowInfoDto;
+import com.carrot.nyam.model.follow.dto.ReqFollowMeDto;
 
 public interface FollowRepository {
 	public int follow(int fromUserId, int toUserId);
@@ -13,4 +14,5 @@ public interface FollowRepository {
 	public List<ReqFollowInfoDto> followInfo(int fromUserId);
 	int followerCount(int toUserId);
 	int followCount(int fromUserId);
+	public List<ReqFollowMeDto> findByFollowMe(int userId);
 }
