@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		//모든 리퀘스트 받기
 		http.authorizeRequests()
-			.antMatchers("/user/userinfo/**","/user/profile/**","/post/write/**","/post/detail/**","/post/update/**","/post/delete/**").authenticated() //얘는 인증 필요하다.
+			.antMatchers("/user/userinfo/**","/user/profile/**","/review/write/**","/review/modify/**","/review/delete/**","/like/**","/clipping/**","/comment/**","/follow/**", "/user/alert/**").authenticated() //얘는 인증 필요하다.
 			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')") 
 			//admin 으로 들어가려면 admin 이나 manager role을 가져야함 (and로 하면 둘다 가지고 있어야함)
 			.anyRequest().permitAll()//위에애들 말고 나머지는 다 열어주기

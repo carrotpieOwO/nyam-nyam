@@ -46,7 +46,9 @@
 					console.log(r[i].username);
 					var username=r[i].username;
 					var profile = r[i].profile;
+					var reviewId = r[i].reviewId;
 					var image = r[i].image1;
+					var content = r[i].content;
 					var date = r[i].createDate;
 					var createDate = date.substring(0,10);
 					var userId = r[i].userId;
@@ -68,11 +70,12 @@
 						res += '<div class="ml-2">';
 						res += '<strong class="my-auto">@'+username+'</strong>';
 						res += '<p class="my-auto" style="font-size: 11px;">';
-						res += '님이 회원님의 리뷰를 좋아합니다.</p>'
-						res += '<p class="my-auto" style="font-size:12px">'+createDate+'</p></div>'
-						res += '<img src="/media/'+image+'" class="ml-auto my-auto" width=70px height=70px>';			
+						res += '님이 회원님의 리뷰를 좋아합니다.</p>';
+						res += '<p class="my-auto" style="font-size:12px">'+createDate+'</p></div>';
+						res += '<a href="/review/'+reviewId+'" class="ml-auto my-auto">';
+						res += '<img src="/media/'+image+'" width=70px height=70px></a>';			
 						res += '</div></div></div></div>';
-					}else{
+					}else if(follow==true){
 						res +='<div id="alert-list" class="tag mb-1" style="width: 100%; height:auto;">';
 						res += ' <div class="container-fluid" >';
 						res += '<div class="row align-items-center" style="height: 70px;">';
@@ -94,6 +97,24 @@
 								res+='<i id="plus" class="fas fa-user-plus"></i> 팔로우</a>';
 							} 
 						res += '</div></div></div></div>';
+					}else{
+						res +='<div id="alert-list" class="tag mb-1" style="width: 100%; height:auto;">';
+						res += ' <div class="container-fluid" >';
+						res += '<div class="row align-items-center" style="height: 70px;">';
+						res += '<div class="profile">';
+						res += '<a href="/user/mypage/'+username+'">';
+						res += '<img src="/media/'+profile+'" class="border rounded-circle" width="48" height="48" onError="javascript:this.src=\'/img/unknown.png\'"></a></div>';
+						res += '<div class="ml-2">';
+						res += '<strong class="my-auto">@'+username+'</strong>';
+						res += '<p class="my-auto" style="font-size: 11px;">';
+						res += '님이 회원님의 리뷰에 댓글을 달았습니다.</p>"'+content+'"';
+						res += '<p class="my-auto" style="font-size:12px">'+createDate+'</p></div>'
+						res += '<a href="/review/'+reviewId+'" class="ml-auto my-auto">';
+						res += '<img src="/media/'+image+'" width=70px height=70px></a>';			
+						res += '</div></div></div></div>';
+
+
+
 						}
 					}					
 			$('#alert-container').html(res);	

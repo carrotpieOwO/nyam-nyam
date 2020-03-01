@@ -8,8 +8,8 @@
 	<insert id="write" useGeneratedKeys="true" keyProperty="id"
 		parameterType="com.carrot.nyam.model.review.dto.ReqWriteDto">
 	  	
-		insert into review(image1, image2, image3, shopName, content, rating, price, location, userId, createDate) 
-		values(#{image1}, #{image2}, #{image3}, #{shopName}, #{content}, #{rating}, #{price}, #{location}, #{userId}, now())
+		insert into review(image1, image2, image3, shopName, content, rating, price, location, userId, category, createDate) 
+		values(#{image1}, #{image2}, #{image3}, #{shopName}, #{content}, #{rating}, #{price}, #{location}, #{userId}, #{category}, now())
 		
 	</insert>
 	
@@ -40,4 +40,108 @@
 		delete from review where id=#{id}
 	</delete>
 
+	<!-- 좋아요순 -->
+	<select id="findLikeRanking" resultType="com.carrot.nyam.model.review.dto.ReqLikeRankingDto">
+		select count(l.id)count, r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join likes l on r.id=l.reviewId  
+		inner join user u on r.userId = u.id
+		group by reviewId order by count desc limit 3
+	</select>
+	
+	<!-- 전체피드 -->
+	<select id="findAll" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		select r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join user u on r.userId = u.id order by r.id desc
+	</select>
+	
+	<!-- 타임라인 -->
+	<select id="findByFollow" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		select r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from user u inner join review r on u.id = r.userId
+		inner join follow f on u.id = f.toUser
+		where f.fromUser = ${userId}
+		order by r.id desc
+	</select>
+	
+	<!-- 지역별 분류 -->
+	
+	<select id="SortByLocation" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		<![CDATA[
+		select r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join user u on r.userId = u.id 
+		where location regexp '${location}'
+		order by r.id desc;
+		]]>
+	</select>
+	
+	<select id="SortByEtc" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		<![CDATA[
+		select r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join user u on r.userId = u.id 
+		where (location not regexp '서울' and location not regexp '대전' and location not regexp '대구' and location not regexp '부산')
+		order by r.id desc;
+		]]>
+	</select>
+	
+	<!-- 지역별 좋아요순 -->
+	<select id="findLocationByLike" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		select count(l.id)count, r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join likes l on r.id=l.reviewId  inner join user u on r.userId = u.id
+		where r.location regexp '${location}'
+		group by reviewId order by count desc
+	</select>
+	
+	<!-- 지역별 보관순 -->
+	<select id="findLocationByClip" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		select count(c.id)count, r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join clipping c on r.id=c.reviewId  inner join user u on r.userId = u.id
+		where r.location regexp '${location}'
+		group by reviewId order by count desc
+	</select>
+	
+	<!-- 지역별 카테고리 분류 -->
+	<select id="findByCategory" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		select r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join user u on r.userId = u.id
+		where (r.location regexp '${location}' and r.category = '${category}')
+		order by r.id desc
+	</select>
+	
+	<!-- 모든 카테고리 분류 -->
+	<select id="findAllCategory" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		select r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join user u on r.userId = u.id
+		where r.category = '${category}'
+		order by r.id desc
+	</select>
+	
+	<!-- etc 카테고리 분류 -->
+	<select id="findEtcCategory" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		select r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join user u on r.userId = u.id
+		where (location not regexp '서울' and location not regexp '대전' and location not regexp '대구' and location not regexp '부산')
+		and r.category = '${category}' 
+		order by r.id desc
+	</select>
+	
+	<!-- 검색 >유저명으로 찾기 -->
+	<select id="searchByUsername" resultType="com.carrot.nyam.model.user.dto.ReqSearchUserDto">
+		select username, introduction, profile 
+		from user where username regexp '${username}' order by id desc
+	</select>
+	
+	<!-- 검색>장소로 찾기 -->
+	<select id="searchByShopname" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		select r.id, r.image1, r.location, r.shopName, r.category, u.username, u.profile
+		from review r inner join user u on r.userId=u.id
+		where r.shopName regexp '${shopName}' order by r.id desc
+	</select>
+	
+	<!-- 검색>태그로 찾기 -->
+	<select id="searchByTag" resultType="com.carrot.nyam.model.tag.dto.ReqSearchTagDto">
+		select r.id, r.image1, r.location, r.category, u.username, u.profile, t.tag 
+		from review r inner join user u on r.userId = u.id inner join tag t on r.id = t.reviewId 
+		where t.tag regexp '${tag}' order by r.id desc
+	</select>
+	
 </mapper>

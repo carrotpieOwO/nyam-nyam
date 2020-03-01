@@ -13,6 +13,7 @@ import com.carrot.nyam.model.user.User;
 import com.carrot.nyam.model.user.dto.ReqJoinDto;
 import com.carrot.nyam.model.user.dto.ReqLoginDto;
 import com.carrot.nyam.model.user.dto.ReqProfileDto;
+import com.carrot.nyam.model.user.dto.ReqRankingDto;
 import com.carrot.nyam.repository.UserRepository;
 
 @Service
@@ -94,6 +95,10 @@ public class UserService {
 		return userRepository.findReviewAll(username, userId);
 	}
 	
+	//유저랭킹
+	public List<ReqRankingDto> userRank(){
+		return userRepository.findUserRanking();
+	}
 
 	
 	

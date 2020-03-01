@@ -33,4 +33,12 @@
 		delete from comment where id = #{id}
 	</delete>
 	
+	<!-- 코멘트 알림 -->
+	<select id="findByCommentMe" resultType="com.carrot.nyam.model.comment.dto.ReqCommentMeDto">
+		select c.id, c.userId fromUser, c.content, c.createDate, u.username, u.profile, r.id reviewId, r.userId toUser, r.image1 
+		from comment c inner join user u on userId = u.id 
+		inner join review r on reviewId = r.id
+		where r.userId = 3 ;  	
+	</select>
+	
 </mapper>

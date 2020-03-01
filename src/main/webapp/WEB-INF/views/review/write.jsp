@@ -154,6 +154,7 @@
 
 					</div>
 				</div>
+				<input type="hidden" id="category" name="category" value=""/>
 			<div class="row col-12 justify-content-center">
 					<button class="btn btn-warning mt-3 mb-3" style="width: 200px;">업로드</button>
 				</div>
@@ -370,15 +371,33 @@ function placesSearchCB (data, status, pagination) {
 function displayMarker(place) {
 	 $('#location').val(place.address_name);
     // 마커를 생성하고 지도에 표시합니다
+    
+	 var category = place.category_group_code;
+	 var result = '';
+	    switch (category){
+	    case 'CE7' :
+	        var result = category.replace('CE7','카페');
+	        break;
+	    case 'FD6' :
+	        var result =category.replace('FD6','음식점');
+	        break;
+	    default :
+	        var result = '기타';
+		}
+	    $('#category').val(result);
+   
     var marker = new kakao.maps.Marker({
         map: map,
         position: new kakao.maps.LatLng(place.y, place.x) 
     });
+
+    
 	
     // 마커에 클릭이벤트를 등록합니다
     kakao.maps.event.addListener(marker, 'click', function() {
         // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
         str = '<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>';
+		 
         infowindow.setContent(str);
         infowindow.open(map, marker);
         if(place.address_name){

@@ -77,13 +77,13 @@
   <ul id="category" class="d-flex justify-content-center" >
   	<c:choose>
   	<c:when test="${not empty reviews}">
-    <li style="width: 300px;" ><a href="?c=SwitchTabType" ><i class="far fa-images"></i> ${reviews[0].count} 개</a></li>
+    <li style="width: 300px;" ><a href="/user/mypage/${user.username}" ><i class="far fa-images"></i> ${reviews[0].count} 개</a></li>
     <li style="width: 300px;">
       <a href="javascript:getClippings(${user.id})"><i class="fas fa-bookmark"></i> ${reviews[0].clippingCount} 개</a>
     </li>
     </c:when>
     <c:otherwise>
-    <li style="width: 300px;" ><a href="?c=SwitchTabType" ><i class="far fa-images"></i> 0개</a></li>
+    <li style="width: 300px;" ><a href="/user/mypage/${user.username}" ><i class="far fa-images"></i> 0개</a></li>
     <li style="width: 300px;">
       <a href="javascript:getClippings(${user.id})"><i class="fas fa-bookmark"></i> 0개</a>
     </li>
@@ -103,11 +103,19 @@
         <!--카드시작-->
         
         <div class="col-md-3" id="review-cards">
-          <div class="card review" >
-            <a href="/review/${review.id}"><img class="card-img-top" src="/media/${review.image1}" width="250" height="250">
+          <div class="mt-2 card review" >
+                      <div class="nearby" style="position:relative">
+          
+            <a href="/review/${review.id}">
+            <img class="card-img-top nearby_photo" style="cursor:pointer; z-index:11;" src="/media/${review.image1}" width="250" height="250">
+           <div class="row nearby_info align-items-center justify-content-center" style="width:80%">
+						<p class="ml-4"><i class="fas fa-utensils"></i> ${review.shopName}</p>
+						
+						</div>
+           
             <div class="card-img-overlay">
               <span class="badge badge-dark" style="opacity: 80%;"><i class="fas fa-map-marker-alt" style="font-size: 12px;"></i> ${review.location}</span>
-            </div></a>
+            </div></a></div>
 
 	            <div class="card-header text-center">
 					<p id="star_grade" class="mb-0">
@@ -186,6 +194,20 @@
   </section>
 <script src="/js/follow.js"></script>
 <script>
+//호버로 정보보여주기
+$( document ).ready(function() {
+	$('.nearby').hover(function(){
+		$(this).find('.nearby_photo').css('filter', 'brightness(0.30)');
+		$(this).find('.nearby_info').css('visibility', 'visible');
+	
+	}, function(){
+	$(this).find('.nearby_photo').css('filter','');
+	$(this).find('.nearby_info').css('visibility', 'hidden');
+	
+	
+	});
+});
+
 	$('#update-submit').on("click", function() {
 		var data = {
 			id : $('#id').val(),

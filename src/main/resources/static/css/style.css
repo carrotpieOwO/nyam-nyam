@@ -23,11 +23,11 @@
 }
 
 }
-@media only screen and (min-width: 700px) {
-	#logo {
+
+a#logo {
 		display: none;
 	}
-}
+
 
 #switch_sex_type {
 	width: 100%;
@@ -88,11 +88,11 @@ a:hover {
 	text-decoration: none;
 }
 
-@media only screen and (max-width: 570px) {
-	#page-top, #curtain {
-		display: none;
-	}
+pointer{
+		cursor: pointer;
+	
 }
+
 
 #sidebar section ul {
 	list-style: none;
@@ -201,7 +201,7 @@ header.masthead {
 }
 
 header.masthead .intro-lead-in {
-	font-size: 80px;
+	font-size: 35px;
 	font-weight: 700;
 	font-family: "Finger Paint", cursive;
 	position: absolute;
@@ -214,21 +214,29 @@ header.masthead .intro-lead-in {
 
 @media ( min-width : 768px) {
 	header.masthead .intro-lead-in {
-		font-size: 80px;
+		font-size: 35px;
 		font-weight: 700;
 		font-family: "Finger Paint", cursive;
 		position: absolute;
-		top: 20%;
+		top: 25%;
 		transform: translate(-50%, -50%);
 		color: white;
 		text-align: center;
 		font-family: "Finger Paint", cursive;
 	}
+	
+	
 }
 
 .tag-badge {
 	position: absolute;
 	bottom: 80px;
+	left: 5px;
+}
+
+.list-badge {
+	position: absolute;
+	bottom: 10px;
 	left: 5px;
 }
 

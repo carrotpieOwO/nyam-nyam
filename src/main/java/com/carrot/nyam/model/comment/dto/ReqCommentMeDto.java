@@ -1,4 +1,4 @@
-package com.carrot.nyam.model.follow.dto;
+package com.carrot.nyam.model.comment.dto;
 
 import java.sql.Timestamp;
 
@@ -7,14 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ReqFollowMeDto {
+@NoArgsConstructor
+public class ReqCommentMeDto {
 	private int id;
+	private int reviewId;
 	private int fromUser;
-	private int toUser;
+	private String content;
 	private String username;
 	private String profile;
+	private int toUser;
+	private String image1;
 	private Timestamp createDate;
-	private boolean follow;
 }

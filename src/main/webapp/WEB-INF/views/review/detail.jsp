@@ -180,9 +180,13 @@
 </div>
         <div class="col-md-5">
           <!-- 후기 -->
-        <div class="mb-2">
+        <div class="mb-2 ml-3 row">
          <c:forEach var="tag" items="${tags}">
-          <a class="tag"># ${tag}</a> 
+         <form class="mr-2" action="/search" method="get">
+        	<input type="hidden" name="searchMenu" value="태그"/>
+        	<input type="hidden" name="searchContent" value="${tag}"/>
+        	<button class="btn btn-outline-dark text-outline-light" type="submit">#${tag}</button>
+        	</form>
           </c:forEach>
         </div>
           <div class="card">

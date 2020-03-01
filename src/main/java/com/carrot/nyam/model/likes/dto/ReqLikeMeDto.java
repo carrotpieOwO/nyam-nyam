@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReqLikeMeDto {
 	private int id;
+	private int reviewId;
 	private String username;
 	private String profile;
 	private String image1;

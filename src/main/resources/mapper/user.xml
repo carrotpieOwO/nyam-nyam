@@ -49,13 +49,18 @@
 	
 	<!-- 마이페이지 리스트 -->
 	<select id="findReviewAll"
-		resultType="com.carrot.nyam.model.review.dto.RespListDto">
-		
-		select r.id, r.image1, r.shopName, r.location, u.*, 
+		resultType="com.carrot.nyam.model.review.dto.RespListDto">		
+		select r.id, r.image1, r.shopName, r.location, r.rating, u.*, 
 		(select count(*) from review where userId=#{userId})count from review r inner join user as u on r.userId = u.id
 		where u.username =#{username} order by r.id desc;
-
-		
+	</select>
+	
+	<!-- 유저랭킹 -->
+	<select id="findUserRanking"
+		resultType="com.carrot.nyam.model.user.dto.ReqRankingDto">		
+			select count(toUser)count , u.username, u.profile 
+			from follow f inner join user u on toUser = u.id 
+			group by username order by count desc limit 5   
 	</select>
 	
 </mapper>

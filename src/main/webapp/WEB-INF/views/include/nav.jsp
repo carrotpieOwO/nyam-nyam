@@ -7,36 +7,31 @@
     <sec:authentication property="principal" var="principal" /> <!-- principal변수에 principal 담음 principal->userdetail타입을 담은 객체-->
 </sec:authorize>
 
-<a id="logo" class="navbar-brand" href="/">Nyam-Nyami</a>
+<a id="logo" class="navbar-brand" href="/">Nyam-Nyam</a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 	Menu <i class="fas fa-bars"></i>
 </button>
 <div class="collapse navbar-collapse " id="collapsibleNavbar">
 	<div>
-		<form id="search" class="form-inline input-group" action="/action_page.php">
+		<form class="form-inline input-group" action="/search" method="get">
 			<div class="input-group-prepend">
-				<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">검색조건</button>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">장소</a> 
-					<a class="dropdown-item" href="#">유저명</a> 
-					<a class="dropdown-item" href="#">태그</a>
-				</div>
+				<select id="search-btn" name="searchMenu" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" required>
+					<option value="장소" class="dropdown-item" href="#">장소</option> 
+					<option value="유저명" class="dropdown-item" href="#">유저명</option> 
+					<option value="태그" class="dropdown-item" href="#">태그</option>
+				</select>
 			</div>
-
-			<input  class="form-control" type="text" placeholder="Search" />
+			<input  class="form-control" type="text" name="searchContent" placeholder="Search" />
 			<div class="input-group-append">
 				<button class="btn btn-warning" type="submit">
 					<i class="fas fa-search"></i>
 				</button>
 			</div>
-	</div>
+	
 	</form>
-	<a id="logo-center" class="navbar-brand ml-auto" href="/">Nyam-Nyami</a>
+	</div>
 	<ul id="nav-right" class="navbar-nav text-uppercase ml-auto  align-items-center">
-		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-center" data-toggle="dropdown" href="#">지역선택</a>
-			<div class="dropdown-menu " id="selectCity">
-				<a class="dropdown-item" href="#">Link 1</a> <a class="dropdown-item" href="#">Link 2</a> <a class="dropdown-item" href="#">Link 3</a>
-			</div></li>
+		
 			
 			<c:choose>
 					<c:when test="${not empty principal}">
@@ -67,4 +62,15 @@
 </div>
 </nav>
 </div>
+
+<script>
+//드롭다운
+/* $('#search > a').on('click', function() {
+	// 버튼에 선택된 항목 텍스트 넣기 
+	$('#search-btn').text($(this).text());
+	$('#selected-search').val($(this).text());
+	// 선택된 항목 값(value) 얻기
+	// alert($(this).attr('value'));
+}); */
+</script>
 <%@include file="../modal/alertModal.jsp"%>

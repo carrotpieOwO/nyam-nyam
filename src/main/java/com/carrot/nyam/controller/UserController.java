@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.nyam.model.RespCM;
 import com.carrot.nyam.model.ReturnCode;
+import com.carrot.nyam.model.comment.dto.ReqCommentMeDto;
 import com.carrot.nyam.model.follow.Follow;
 import com.carrot.nyam.model.follow.dto.ReqFollowInfoDto;
 import com.carrot.nyam.model.follow.dto.ReqFollowMeDto;
@@ -42,6 +43,7 @@ import com.carrot.nyam.model.user.dto.ReqJoinDto;
 import com.carrot.nyam.model.user.dto.ReqProfileDto;
 import com.carrot.nyam.model.user.dto.RespAlertDto;
 import com.carrot.nyam.repository.ClippingRepository;
+import com.carrot.nyam.repository.CommentRepository;
 import com.carrot.nyam.repository.FollowRepository;
 import com.carrot.nyam.repository.LikesRepository;
 import com.carrot.nyam.repository.UserRepository;
@@ -70,6 +72,9 @@ public class UserController {
 	
 	@Autowired
 	private FollowRepository followRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	//화면이동
 	@GetMapping("user/join")
@@ -115,19 +120,22 @@ public class UserController {
 			  dto.setClippingCount(clippingCount);
 			 
 		  }
-		  
-			  Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
+		  	if(principal!=null) {
+		  		Follow follow = followRepository.findByFromUserAndToUser(principal.getId(),user.getId());
+		  		if(follow != null) {
+					  followInfo.setFromUser(principal.getId());
+					  followInfo.setToUser(user.getId());
+					  followInfo.setFollow(true);
+					  
+				  }
+		  	}
+			  
 			  int followCount = followRepository.followCount(user.getId());
 			  int followerCount = followRepository.followerCount(user.getId());
 			  followInfo.setFollowCount(followCount);
 			  followInfo.setFollowerCount(followerCount);
 			  
-			  if(follow != null) {
-				  followInfo.setFromUser(principal.getId());
-				  followInfo.setToUser(user.getId());
-				  followInfo.setFollow(true);
-				  
-			  }
+			  
 			  
 			  
 			  System.out.println(followInfo);
@@ -144,11 +152,13 @@ public class UserController {
 		public @ResponseBody List<RespAlertDto> followInfo(Model model, @AuthenticationPrincipal User principal) {
 			List<ReqLikeMeDto> likeDtos = likesRepository.findByLikeMe(principal.getId());
 			List<ReqFollowMeDto> followDtos = followRepository.findByFollowMe(principal.getId());
+			List<ReqCommentMeDto> commentDtos = commentRepository.findByCommentMe(principal.getId());
 			List<RespAlertDto> dtos = new ArrayList<>();
 			
 	
 			  for(ReqLikeMeDto likeDto : likeDtos) {
 				  RespAlertDto dto = new RespAlertDto();
+				  dto.setReviewId(likeDto.getReviewId());
 				  dto.setUsername(likeDto.getUsername());
 				  dto.setProfile(likeDto.getProfile());
 				  dto.setImage1(likeDto.getImage1());
@@ -172,6 +182,21 @@ public class UserController {
 				  dtos.add(dto);
 			  
 		  }		
+			  
+			  for(ReqCommentMeDto commentDto : commentDtos) {
+				  RespAlertDto dto = new RespAlertDto();
+				  dto.setReviewId(commentDto.getReviewId());
+				  dto.setFromUser(commentDto.getFromUser());
+				  dto.setToUser(commentDto.getToUser());
+				  dto.setUsername(commentDto.getUsername());
+				  dto.setProfile(commentDto.getProfile());
+				  dto.setContent(commentDto.getContent());
+				  dto.setImage1(commentDto.getImage1());
+				  dto.setCreateDate(commentDto.getCreateDate());
+				  dto.setCommentMe(true);
+				  dtos.add(dto);
+			  }
+			  
 		  	System.out.println(followDtos);
 		  	System.out.println(likeDtos);
 			System.out.println(dtos);

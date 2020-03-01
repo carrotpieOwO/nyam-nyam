@@ -15,17 +15,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RespAlertDto {
-	private int fromUser;
-	private int toUser;
+public class ReqRankingDto {
+	private int rank;
+	private int count;
 	private String username;
 	private String profile;
-	private String content;
-	private int reviewId;
-	private Timestamp createDate;
-	private boolean follow;
-	private String image1;
-	private boolean like;
-	private boolean followMe;
-	private boolean commentMe;
+	private int likeCount;
+	private int clippingCount;
 }
