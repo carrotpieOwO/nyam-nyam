@@ -11,6 +11,7 @@ import com.carrot.nyam.model.review.dto.ReqNearbyDto;
 import com.carrot.nyam.model.review.dto.ReqUpdateDto;
 import com.carrot.nyam.model.review.dto.ReqWriteDto;
 import com.carrot.nyam.model.review.dto.RespDetailDto;
+import com.carrot.nyam.model.tag.Tag;
 import com.carrot.nyam.model.tag.dto.ReqSearchTagDto;
 import com.carrot.nyam.model.user.dto.ReqSearchUserDto;
 import com.carrot.nyam.repository.ReviewRepository;
@@ -30,8 +31,8 @@ public class ReviewService {
 		return reviewRepository.findByReviewId(id);
 	}
 	
-	public List<ReqNearbyDto> locations(String location, int id){
-		return reviewRepository.findByLocation(location, id);
+	public List<ReqNearbyDto> locations(String location, String shopName){
+		return reviewRepository.findByLocation(location, shopName);
 	}
 	
 	public int update(ReqUpdateDto dto) {
@@ -92,5 +93,9 @@ public class ReviewService {
 	
 	public List<ReqSearchTagDto> searchByTag(String tag){
 		return reviewRepository.searchByTag(tag);
+	}
+	
+	public List<Tag> selectDistinctTag(String tag){
+		return reviewRepository.selectDistinctTag(tag);
 	}
 }

@@ -23,7 +23,7 @@
 	<select id="findByLocation"
 		resultType="com.carrot.nyam.model.review.dto.ReqNearbyDto">
 		<![CDATA[
-		select id, image1, shopName, location from review where location regexp #{location} and id not in (#{id}) order by id desc;
+		select id, image1, shopName, location from review where location regexp #{location} and shopName not in (#{shopName}) order by id desc;
 		]]>
 			
 	</select>
@@ -142,6 +142,11 @@
 		select r.id, r.image1, r.location, r.category, u.username, u.profile, t.tag 
 		from review r inner join user u on r.userId = u.id inner join tag t on r.id = t.reviewId 
 		where t.tag regexp '${tag}' order by r.id desc
+	</select>
+	
+	<!-- 검색>태그명 중복제거 -->
+	<select id="selectDistinctTag" resultType="com.carrot.nyam.model.tag.Tag">
+		select distinct tag from tag where tag regexp '${tag}' order by id desc;
 	</select>
 	
 </mapper>

@@ -28,4 +28,8 @@ public class RespAlertDto {
 	private boolean like;
 	private boolean followMe;
 	private boolean commentMe;
+
+	
+
 }
+

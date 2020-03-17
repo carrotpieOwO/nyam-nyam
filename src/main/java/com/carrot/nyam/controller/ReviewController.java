@@ -336,6 +336,7 @@ public class ReviewController {
 				}
 				
 				if(searchMenu.equals("태그")) {
+					List<Tag> tagKeywords = reviewService.selectDistinctTag(searchContent);
 					List<ReqSearchTagDto> tags = reviewService.searchByTag(searchContent);
 					for(ReqSearchTagDto tag : tags) {
 						  String[] loc = tag.getLocation().split("\\s");
@@ -346,6 +347,7 @@ public class ReviewController {
 						  tag.setClippingCount(clippingCount);
 					  }
 					model.addAttribute("searchContent",searchContent);
+					model.addAttribute("tagKeywords", tagKeywords);
 					model.addAttribute("tags", tags);
 					System.out.println(tags);
 					return "search/tags";
@@ -358,7 +360,7 @@ public class ReviewController {
 	@GetMapping("/review/{id}")
 	public String post(Model model, @PathVariable int id, @AuthenticationPrincipal User principal) {
 		RespDetailDto dto = reviewService.detail(id);
-		
+		System.out.println("shopName:"+dto.getShopName());
 		//좋아요 여부 체크
 		if(principal != null) {
 			Likes like = likesRepository.findByUserIdAndReviewID(id, principal.getId());
@@ -393,19 +395,31 @@ public class ReviewController {
 		List<String> tags = tagService.tags(reviewId);
 		
 		//근처맛집 불러오기
-	    List<ReqNearbyDto> locations = reviewService.locations(dto.getLocation(), id);
-		  for(ReqNearbyDto location : locations) {
-			  String[] loc = dto.getLocation().split("\\s");
-			  location.setLocation(loc[1]+loc[2]);
-			  System.out.println(loc[1]+loc[2]);
-			
-		  }
+		String shopName = dto.getShopName();
+		
+		String[] locations = dto.getLocation().split("\\s");
+		String location = locations[1]+" "+locations[2];
+		System.out.println("로케이션: "+location);
+		
+	    List<ReqNearbyDto> nearDtos = reviewService.locations(location, shopName);
+		System.out.println(nearDtos);
+		
+		/*
+		 * for(ReqNearbyDto nearDto : nearDtos) {
+		 * 
+		 * System.out.println("샵네임:"+shopName); String[] loc =
+		 * dto.getLocation().split("\\s"); location.setLocation(loc[1]+loc[2]);
+		 * location.setShopName(shopName); System.out.println(loc[1]+loc[2]);
+		 * System.out.println(location);
+		 * 
+		 * }
+		 */
 		System.out.println(locations);
 		
 		
 		model.addAttribute("review",dto);
 		model.addAttribute("tags", tags);
-		model.addAttribute("locations", locations);
+		model.addAttribute("nearDtos", nearDtos);
 		model.addAttribute("comments",commentService.list(reviewId));
 		return "/review/detail";
 	}
@@ -439,57 +453,72 @@ public class ReviewController {
 	// Proc
 	@SuppressWarnings("unused")
 	@PostMapping("/review/write")
-	public @ResponseBody String write(@RequestParam MultipartFile[] images, @RequestParam String shopName, @RequestParam String content, 
+	public @ResponseBody String write(@RequestParam MultipartFile image1, @RequestParam MultipartFile image2, @RequestParam MultipartFile image3, @RequestParam String shopName, @RequestParam String content, 
 			@RequestParam int rating, @RequestParam String price, @RequestParam String tags,
 			@RequestParam String location, @RequestParam int userId, @RequestParam String category, @AuthenticationPrincipal User principal) {
 
+		
+		System.out.println("이미지:"+image1);
+		System.out.println("이미지:"+image2);
+		System.out.println("이미지:"+image3);
+		
 		UUID uuid = UUID.randomUUID();
 		
-		System.out.println(images);
-		String uuidFilename1 = null;
-		String uuidFilename2 = null;
-		String uuidFilename3 = null;
-		String uuidFilenames = null;
-		List<String> lists = new ArrayList<>();
-		for(int i=0; i<images.length; i++) {
-			
+		String uuidFilename1 = "";
+		String uuidFilename2 = "";
+		String uuidFilename3 = "";
+		//String uuidFilenames = null;
+		
+		List<MultipartFile> images = new ArrayList<>();
+		if(!image1.getOriginalFilename().equals("")) {
+			images.add(image1);
+		}
+		if(!image2.getOriginalFilename().equals("")) {
+			images.add(image2);
+		}
+		if(!image3.getOriginalFilename().equals("")) {
+			images.add(image3);	
+		}
+		
+		
+		List<String> uuidFilenames = new ArrayList<>();
 
-			if(!images[i].getOriginalFilename().equals("")) {
-				uuidFilenames = uuid+"_"+images[i].getOriginalFilename();
-				lists.add(uuidFilenames);
-				Path filePath = Paths.get(fileRealPath+uuidFilenames);
+		for(int i=0; i<images.size(); i++) {	
+			System.out.println(images.get(i).getOriginalFilename());
+			if(images.get(i).getOriginalFilename()!=null || !images.get(i).getOriginalFilename().equals("")) {
+				uuidFilenames.add (uuid+"_"+images.get(i).getOriginalFilename());
+				Path filePath = Paths.get(fileRealPath+uuidFilenames.get(i));
 				
 				try {
-					Files.write(filePath, images[i].getBytes());
+					Files.write(filePath, images.get(i).getBytes());
 				}catch (IOException e) {
 					e.printStackTrace();
 				}
+			}else {
+				continue;
 			}
 			
-			System.out.println(lists.get(i));
 		}
 		
-		switch(images.length) {
-	    case 1: uuidFilename1=lists.get(0);
-	         break;
-	    case 2: 
-	    	uuidFilename1=lists.get(0);
-	    	uuidFilename2=lists.get(1);
-	         break;
-	    case 3: 
-	    	uuidFilename1=lists.get(0);
-	    	uuidFilename2=lists.get(1);
-	    	uuidFilename3=lists.get(2);
-
-	         break;
-	    default: 
-	         break;
-	}
-				
+			System.out.println("파일이름사이즈: "+uuidFilenames.size());
+			
 		ReqWriteDto dto = new ReqWriteDto();
-		dto.setImage1(uuidFilename1);
-		dto.setImage2(uuidFilename2);
-		dto.setImage3(uuidFilename3);
+		
+		if(uuidFilenames.size()==1) {
+			System.out.println("여기옴?");
+			dto.setImage1(uuidFilenames.get(0));
+			dto.setImage2("");
+			dto.setImage3("");
+		}else if(uuidFilenames.size()==2) {
+			dto.setImage1(uuidFilenames.get(0));
+			dto.setImage2(uuidFilenames.get(1));
+			dto.setImage3("");
+		}else if(uuidFilenames.size()==3) {
+			dto.setImage1(uuidFilenames.get(0));
+			dto.setImage2(uuidFilenames.get(1));
+			dto.setImage3(uuidFilenames.get(2));
+		}
+		
 		dto.setShopName(shopName);
 		dto.setContent(content);
 		dto.setRating(rating);

@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,7 +155,7 @@ public class UserController {
 			List<ReqLikeMeDto> likeDtos = likesRepository.findByLikeMe(principal.getId());
 			List<ReqFollowMeDto> followDtos = followRepository.findByFollowMe(principal.getId());
 			List<ReqCommentMeDto> commentDtos = commentRepository.findByCommentMe(principal.getId());
-			List<RespAlertDto> dtos = new ArrayList<>();
+			ArrayList<RespAlertDto> dtos = new ArrayList<RespAlertDto>();
 			
 	
 			  for(ReqLikeMeDto likeDto : likeDtos) {
@@ -200,8 +202,23 @@ public class UserController {
 		  	System.out.println(followDtos);
 		  	System.out.println(likeDtos);
 			System.out.println(dtos);
+			
+			Collections.sort(dtos, new Ascending());
+			System.out.println("정렬후:" + dtos);
+			
 			return dtos;
 		}
+	  
+	  class Ascending implements Comparator<RespAlertDto>{
+
+		@Override
+		public int compare(RespAlertDto a1, RespAlertDto a2) {
+			// TODO Auto-generated method stub
+			return a2.getCreateDate().compareTo(a1.getCreateDate());
+		}
+		  
+	  }
+	  
 	  
 	//회원가입 구현
 	@PostMapping("user/join")

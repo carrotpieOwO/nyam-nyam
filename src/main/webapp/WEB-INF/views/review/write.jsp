@@ -28,10 +28,14 @@
 					</div>
 					<div class="card-body">
 						<div class="row">
+						
 						 <div id="upload" class="filebox ">
-								<label for="uploadFile" class="btn btn-warning ml-5"><i
-									class="fas fa-camera"></i> 사진업로드</label> 
-									<input type="file" id="uploadFile" name="images" class="multi" maxlength="3" multiple="multiple" required/>
+						 	
+						 	<!-- <label for="uploadFile1" class="btn btn-warning ml-5"><i class="fas fa-camera"></i> 사진업로드</label> -->
+							<button type="button" id="btn-upload" class="btn btn-warning ml-5"><i class="fas fa-camera"></i> 사진업로드</button>
+									<input type="file" id="uploadFile1" name="image1" class="multi"  />
+									<input type="file" id="uploadFile2" name="image2" class="multi"  />
+									<input type="file" id="uploadFile3" name="image3" class="multi"  />
 									
 							</div>			 
 								
@@ -177,7 +181,7 @@
 <script>
 
 	//다중파일 업로드
-	$(document).ready( function() {
+	/* $(document).ready( function() {
  
         $("input[type=file]").change(function () {
             
@@ -195,48 +199,113 @@
             
         });
  
-    });
-    
-	$(document).ready(function(e) {
-		$('#uploadFile').change(function(e) {
+    }); */
 
-			var files = e.target.files;
-			var arr = Array.prototype.slice.call(files);
-			console.log($('uploadFile').val());
-			console.log(e.target.files);
-			$('uploadFile').val(files);
-			preview(arr);
+    //사진업로드 버튼
+    $('#btn-upload').click(function(e){
+       // e.preventDefalut();
+       if($('.Img-card').length==0){
+    	   $('#uploadFile1').click();
+    	   console.log($('#uploadFile').val());
+        }else if($('.Img-card').length==1){
+            $('#uploadFile2').click();
+        }else if($('.Img-card').length==2){
+            $('#uploadFile3').click();
+        }else{
+            alert('사진은 3장까지 업로드 가능합니다.');
 
-		});//file change
+            }
+        });
+        
+    var sel_file;
+	$(document).ready(function() {
+		$('#uploadFile1').on("change", handleImgFileSelect1);
+		$('#uploadFile2').on("change", handleImgFileSelect2);
+		$('#uploadFile3').on("change", handleImgFileSelect3);
+		
+	});
+	
+	function handleImgFileSelect1(e) {
+		var files = e.target.files;
+		var arr = Array.prototype.slice.call(files);
+		arr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("이미지파일만 업로드 가능합니다.");
+				return;
+			}
+			var size = f.size
 
-		function preview(arr) {
+			if(size > 1048576){
+				alert('파일크기는 1mb보다 작아야 합니다.');
+				return;
+			}
+			preview(arr,1);
+		
+		});
+	}
+
+	function handleImgFileSelect2(e) {
+		var files = e.target.files;
+		var arr = Array.prototype.slice.call(files);
+		arr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("이미지파일만 업로드 가능합니다.");
+				return;
+			}
+			var size = f.size
+
+			if(size > 1048576){
+				alert('파일크기는 1mb보다 작아야 합니다.');
+				return;
+			}
+			preview(arr,2);
+		
+		});
+	}
+
+	function handleImgFileSelect3(e) {
+		var files = e.target.files;
+		var arr = Array.prototype.slice.call(files);
+		arr.forEach(function(f) {
+			if (!f.type.match("image.*")) {
+				alert("이미지파일만 업로드 가능합니다.");
+				return;
+			}
+			var size = f.size
+
+			if(size > 1048576){
+				alert('파일크기는 1mb보다 작아야 합니다.');
+				return;
+			}
+			preview(arr,3);
+		
+		});
+	}
+	
+
+		function preview(arr,num) {
 			var sel_files = [];
+			console.log(num);
 			arr.forEach(function(f) {
 			//div에 이미지 추가
 			var str = '<div id="img" style="display: inline-flex; padding: 12px;">';
 			var g_count = 0;
 			//이미지 파일 미리보기
 			if (f.type.match('image.*')) {
-				if (arr.lenght > 3) {
-					alert('사진은 3장까지 올릴 수 있습니다.');
-					return;
-				}
+			
 				sel_files.push(f);
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					if ($("#foodPic").length > 3) {
-						alert('이미지는 3장까지 업로드 가능합니다.');
-						return;
-					}
-					if ($("img").length) {
+					
+					if ($('img').length) {
 						$('#no-image').hide();
 
 					}
-
-					str += '<div id="card" class="card bg-light" style="width: 250px; hegit: 250px">';
+					
+					str += '<div id="card'+num+'" class="card bg-light Img-card" style="width: 250px; hegit: 250px">';
 					str += '<img src="'+e.target.result+'" id="foodPic" class="card-img-top" title="'+f.name+'" width=250 height=250 />';
 					str += '<div class="card-img-overlay">';
-					str += '<button type="button" onclick="deleteImage()" class="float-right btn btn-danger btn-sm rounded-circle"><i class="fas fa-times"></i></button>';
+					str += '<button type="button" onclick="deleteImage('+num+')" class="float-right btn btn-danger btn-sm rounded-circle"><i class="fas fa-times"></i></button>';
 					str += '</div></div>';
 
 					$(str).appendTo('#preview');
@@ -248,20 +317,32 @@
 				alert('이미지 파일만 업로드 가능합니다.');
 				return;
 			}
+			console.log($('#uploadFile1').val());
+			console.log($('#uploadFile2').val());
+			console.log($('#uploadFile3').val());
+
+			
 		});//arr.forEach
 	}
-});
+//});
 
 	//파일 삭제
-	function deleteImage() {
+	function deleteImage(num) {
+		console.log($('#uploadFile'+num).val());
+		$('#uploadFile'+num).val("");
 
-		$('#card').remove();
-		$('#uploadFile').val("");
+			
+		$('#card'+num).remove();
 
-		if (!$('#card').length) {
-			console.log($("img").length);
+		console.log($('#uploadFile'+num).val());
+		
+		if (!$('.Img-card').length) {
+			console.log($(".Img-card").length);
 			$('#no-image').show();
 		}
+
+		
+		
 	};
 
 	//별점주기
@@ -284,37 +365,42 @@
 
 	//태그
 	$('#tag-btn').on('click', function() {
-		var str ='<div class="tag mb-1 mr-1">'
-		str += '<p id="tag" class="tagArr ">';
-		str += '#'+$('#tag-input').val()+'</p>';
-		str += '<a onclick="deleteTag()" class="ml-2 tagDel"><strong>X</strong></a></div>';
 
+		var i = $('.tag').length;
+		console.log($('.tag').length);
+		var str ='<div id="id_'+i+'" class="tag mb-1 mr-1">'
+		str += '<p id="tag_'+i+'" class="tagArr ">';
+		str += '#'+$('#tag-input').val()+'</p>';
+		str += '<a onclick="deleteTag('+i+')" class="ml-2 tagDel"><strong>X</strong></a></div>';
+
+					
 		$('#tags').append(str);
 		$('#tag-input').val("");
 
-		//var req = new Array();
 		var taglist = $('.tagArr').text();
-		//req.push(taglist);
-		
-		//console.log(taglist);
-		/* var req = $('.tagArr').val(); */
 		$('#tag-submit').val(taglist);
+		
 
 		var confirm =$('#tag-submit').val(); 
 		console.log(confirm);
 		
-	
+		
 	});
 
-	function deleteTag() {
+	
+	 function deleteTag(i) {
+			var removeTag = $('#tag_'+i).text();
+			console.log(removeTag);
+			var taglist = $('.tagArr').text();
+			$('#tag-submit').val(taglist.replace(removeTag,''));
+			console.log($('#tag-submit').val());
+			$('#id_'+i).remove();
 
-		$('.tag').remove();
-
-		if (!$('#card').length) {
-			console.log($("img").length);
-			$('#no-image').show();
 		}
-	};
+
+
+
+	
 
 	//위치정보
 	

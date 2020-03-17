@@ -148,10 +148,10 @@
 						<label for="comment" class="mb-1">태그:</label><br>
 						<div id="tags">
 							<c:if test="${!empty tags}">
-								<c:forEach var="tag" items="${tags}">
-									<div class="tag mb-1 mr-1">
-									<p id="tag" class="tagArr">#${tag}</p>
-									<a onclick="deleteTag()" class="ml-2 tagDel"><strong>X</strong></a></div>
+								<c:forEach var="tag" varStatus="status" items="${tags}">
+									<div id="id_${status.index}" class="tag mb-1 mr-1">
+									<p id="tag_${status.index}" class="tagArr">#${tag}</p>
+									<a onclick="deleteTag(${status.index})" class="ml-2 tagDel"><strong>X</strong></a></div>
 								</c:forEach>
 							</c:if>
 						</div>
@@ -269,35 +269,34 @@
 			.on(
 				'click',
 				function() {
-					var str = '<div class="tag mb-1 mr-1">'
-					str += '<p id="tag" class="tagArr ">';
-					str += '#' + $('#tag-input').val() + '</p>';
-					str += '<a onclick="deleteTag()" class="ml-2 tagDel"><strong>X</strong></a></div>';
+					var i = $('.tag').length;
+					console.log($('.tag').length);
+					var str ='<div id="id_'+i+'" class="tag mb-1 mr-1">'
+					str += '<p id="tag_'+i+'" class="tagArr ">';
+					str += '#'+$('#tag-input').val()+'</p>';
+					str += '<a onclick="deleteTag('+i+')" class="ml-2 tagDel"><strong>X</strong></a></div>';
 
+								
 					$('#tags').append(str);
 					$('#tag-input').val("");
 
-					//var req = new Array();
 					var taglist = $('.tagArr').text();
-					//req.push(taglist);
-
-					//console.log(taglist);
-					/* var req = $('.tagArr').val(); */
 					$('#tag-submit').val(taglist);
+					
 
-					var confirm = $('#tag-submit').val();
+					var confirm =$('#tag-submit').val(); 
 					console.log(confirm);
 
 				});
 
-	function deleteTag() {
+	function deleteTag(i) {
 
-		$('.tag').remove();
-
-		if (!$('#card').length) {
-			console.log($("img").length);
-			$('#no-image').show();
-		}
+		var removeTag = $('#tag_'+i).text();
+		console.log(removeTag);
+		var taglist = $('.tagArr').text();
+		$('#tag-submit').val(taglist.replace(removeTag,''));
+		console.log($('#tag-submit').val());
+		$('#id_'+i).remove();
 	};
 
 	//위치정보

@@ -27,13 +27,15 @@
 
 <div class="container">
 <div class="row text-center ml-auto justify-content-center mb-2 mr-5 mt-5" >
-	<c:forEach var="tag" items="${tags}">
+	<c:forEach var="tagKeyword" items="${tagKeywords}">
     
         	
         	<form class="mr-2" action="/search" method="get">
         	<input type="hidden" name="searchMenu" value="태그"/>
-        	<input type="hidden" name="searchContent" value="${tag.tag}"/>
-        	<button class="btn btn-outline-dark text-outline-light" type="submit">#${tag.tag}</button>
+        	<input type="hidden" name="searchContent" value="${tagKeyword.tag}"/>
+        	
+        	
+        	<button class="btn btn-outline-dark text-outline-light" type="submit">#${tagKeyword.tag}</button>
         	</form>
         	
       

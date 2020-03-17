@@ -281,13 +281,13 @@
             </div>
             <div class="card-body">
             <div class="row">
-              <c:forEach var="location" items="${locations}">    
+              <c:forEach var="near" items="${nearDtos}">    
              	 <div class="nearby mt-1 mx-auto"" style="position: relative;">      
-            	  <a href="/review/${location.id}" >
-             	 <img src="/media/${location.image1}" class="nearby_photo" width= 200px height= 200px;">
+            	  <a href="/review/${near.id}" >
+             	 <img src="/media/${near.image1}" class="nearby_photo" width= 200px height= 200px;">
              	 
               	</a>
-              	<p class="nearby_info">${location.shopName}</p>
+              	<p class="nearby_info">${near.shopName}</p>
               </div>
             </c:forEach>
             </div>
