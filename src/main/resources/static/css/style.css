@@ -1,5 +1,16 @@
 @charset "UTF-8";
 
+
+section>div.container {
+	min-height: 80vh;
+}
+
+footer{
+	bottom: 0;
+	width:100%;
+	margin-top:20px;
+}
+
 @media only screen and (max-width: 700px) {
 	#logo-center {
 		display: none;
@@ -372,3 +383,10 @@ header.masthead .intro-lead-in {
 #placesList .info .jibun {padding-left:26px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
 #placesList .info .tel {color:#009900;}
 #placesList .item .markerbg {float:left;position:absolute;width:36px; height:39px;margin:10px 0 0 10px;background:url(/img/maker_food_sm.png) no-repeat;}
+
+
+
+}
+
+
+

@@ -25,6 +25,7 @@
     </div>
   </section>
 
+<section>
 <div class="container">
 	<div class="mt-5">
 	<c:forEach var="user" items="${users}">
@@ -46,6 +47,8 @@
 	<!--카드끝-->
 			</div>
 	</div>
+	</section>
+	<%@include file="../include/footer.jsp"%>
 	
 <script src="/js/nav-style.js"></script>
 		</body>

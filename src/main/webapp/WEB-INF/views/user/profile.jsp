@@ -64,6 +64,8 @@
 	</div>
 	</div>
 	</div>
+	<%@include file="../include/footer.jsp"%>
+	
 </section>
 <script>
 	$('#update-submit').on("click", function() {

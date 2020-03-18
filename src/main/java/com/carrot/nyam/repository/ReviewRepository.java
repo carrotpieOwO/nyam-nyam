@@ -20,6 +20,7 @@ public interface ReviewRepository {
 	public int delete(int id);
 	public List<ReqLikeRankingDto> findLikeRanking();
 	public List<ReqAllDto> findAll();
+	public List<ReqAllDto> scrollDown(int id1, int id2);
 	public List<ReqAllDto> findByFollow(int userId);
 	public List<ReqAllDto> SortByLocation(String location);
 	public List<ReqAllDto> SortByEtc();

@@ -17,7 +17,7 @@
 
 <!--디테일 -->
 <section>
-	<div class="container" style="margin-top: 16px;">
+	<div class="container" style="margin-top: 16px; margin-bottom: 16px">
 		<div class="row justify-content-center">
 			<!--사진선택-->
 			<div class="card bg-light" style="width: 60%">
@@ -39,12 +39,7 @@
 
 						</div>
 						<p id="login-check" class="text-danger" style="font-size: 11px;"></p>
-						<div class="form-group form-check">
-							<label class="form-check-label"> <input
-								class="form-check-input" id="remember" type="checkbox">
-								Remember me
-							</label>
-						</div>
+						
 
 						<div class="row justify-content-center">
 							<button id="login-submit" type="button"
@@ -58,6 +53,8 @@
 	</div>
 	</div>
 	</div>
+	<%@include file="../include/footer.jsp"%>
+	
 </section>
 <script>
 	$('#login-submit').on('click', function(e) {

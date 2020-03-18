@@ -192,6 +192,8 @@
       </div>
    
   </section>
+  	<%@include file="../include/footer.jsp"%>
+  
 <script src="/js/follow.js"></script>
 <script>
 //호버로 정보보여주기

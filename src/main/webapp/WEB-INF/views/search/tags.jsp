@@ -25,6 +25,7 @@
     </div>
   </section>
 
+<section>
 <div class="container">
 <div class="row text-center ml-auto justify-content-center mb-2 mr-5 mt-5" >
 	<c:forEach var="tagKeyword" items="${tagKeywords}">
@@ -82,8 +83,10 @@
 	<!--카드끝-->
 			</div>
 	</div>
+	</section>
+	<%@include file="../include/footer.jsp"%>
 	
-<script src="/js/nav-style.js"></script>\
+<script src="/js/nav-style.js"></script>
 <script>
 //호버로 정보보여주기
 $( document ).ready(function() {

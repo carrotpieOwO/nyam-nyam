@@ -51,7 +51,15 @@
 	<!-- 전체피드 -->
 	<select id="findAll" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
 		select r.id, r.image1, r.location, r.category, u.username, u.profile 
-		from review r inner join user u on r.userId = u.id order by r.id desc
+		from review r inner join user u on r.userId = u.id order by r.id desc limit 0, 9
+	</select>
+	
+	<select id="scrollDown" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
+		<![CDATA[
+		select r.id, r.image1, r.location, r.category, u.username, u.profile 
+		from review r inner join user u on r.userId = u.id 
+		where r.id < #{id1} and r.id > #{id2}-9 order by r.id desc
+		]]>
 	</select>
 	
 	<!-- 타임라인 -->

@@ -33,6 +33,7 @@ import com.carrot.nyam.model.likes.Likes;
 import com.carrot.nyam.model.review.dto.ReqAllDto;
 import com.carrot.nyam.model.review.dto.ReqLikeRankingDto;
 import com.carrot.nyam.model.review.dto.ReqNearbyDto;
+import com.carrot.nyam.model.review.dto.ReqScrollDto;
 import com.carrot.nyam.model.review.dto.ReqUpdateDto;
 import com.carrot.nyam.model.review.dto.ReqWriteDto;
 import com.carrot.nyam.model.review.dto.RespDetailDto;
@@ -113,6 +114,35 @@ public class ReviewController {
 		return "/review/list";
 	}
 
+	@PostMapping("/list/scrollDown")
+	public @ResponseBody List<ReqAllDto> scrollDown(@RequestBody ReqScrollDto reqScrollDto){
+		//유저랭킹
+	
+		
+		
+		int bnoToStart = reqScrollDto.getId();
+		
+		
+		System.out.println("아이디값 "+bnoToStart);
+		List<ReqAllDto> feeds = reviewService.scrollDown(bnoToStart, bnoToStart);
+
+		
+		for(int i=0; i<feeds.size(); i++) {
+			 String[] loc = feeds.get(i).getLocation().split("\\s");
+			 feeds.get(i).setLocation(loc[0]);
+			 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+			  feeds.get(i).setLikeCount(likeCount);
+			  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+			  feeds.get(i).setClippingCount(clippingCount);
+		}
+		
+		
+	
+		return feeds;
+	}
+	
+	
+	
 	//메인화면-타임라인
 		@GetMapping("/list/{userId}")
 		public @ResponseBody List<ReqAllDto> feeds(@PathVariable int userId ) {

@@ -23,6 +23,7 @@
     </div>
   </section>
 
+<section>
 <div class="container">
 <div class="row ml-auto justify-content-center mb-2 mr-5 mt-5" >
     	<div class="card" style="width:100%">
@@ -87,6 +88,8 @@
 	<!--카드끝-->
 			</div>
 	</div>
+	</section>
+<%@include file="../include/footer.jsp"%>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a0869af0b95acb3e599ca40afd01eb68&libraries=services"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a0869af0b95acb3e599ca40afd01eb68&libraries=LIBRARY"></script>

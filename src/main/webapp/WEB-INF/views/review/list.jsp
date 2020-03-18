@@ -27,6 +27,7 @@
 </div>
 <br>
 
+<section>
 <div class="container">
 	<div class="row">
 		<div class="btn-group btn-group-toggle mx-auto" data-toggle="buttons">
@@ -118,10 +119,10 @@
 					<div class="row mb-2">
 						<h1>#Now</h1>
 					</div>
-					<div class="row" id="nowContainer">
+					<div class="row scrollLocation" id="nowContainer">
 					<c:forEach var="feed" items="${feeds}">
-					<div class="col-md-4 my-3">
-					<div class="card bg-light">
+					<div class="col-md-4 my-3 listToChange">
+					<div class="card bg-light scrolling" data-bno="${feed.id}">
 						<a href="/review/${feed.id}">
 						<div class="nearby" style="position:relative">
 							<img src="/media/${feed.image1}" class="card-img-top nearby_photo" style="cursor:pointer; z-index:11;" width="300px" height="300px" />
@@ -161,11 +162,11 @@
 				</div>
 				
 
-		
+	</section>	
 		
 		<div class="dropdown dropleft float-right">
     
-    <button type="button" class="btn btn-warning btn-lg rounded-circle" data-toggle="dropdown" 
+    <button id="dropdown-btn" type="button" class="btn btn-warning btn-lg rounded-circle" data-toggle="dropdown" 
     style="position:fixed; bottom:20px; right:20px; width:50px; height:50px;">
 		<i class="fas fa-sliders-h "></i>
 		</button> 
@@ -181,26 +182,167 @@
     </div>
     
     </div>
-  </div>
-</div>
+ 
 
+
+<%@include file="../include/footer.jsp"%>
 
 <script src="/js/nav-style.js"></script>
 <script>
-
 //호버로 정보보여주기
-$( document ).ready(function() {
-	$('.nearby').hover(function(){
-		$(this).find('.nearby_photo').css('filter', 'brightness(0.30)');
-		$(this).find('.nearby_info').css('visibility', 'visible');
-	
-	}, function(){
-	$(this).find('.nearby_photo').css('filter','');
-	$(this).find('.nearby_info').css('visibility', 'hidden');
-	
-	
-	});
+
+ $(document).on('mouseenter','.nearby',function(){
+
+	$(this).find('.nearby_photo').css('filter', 'brightness(0.30)');
+	$(this).find('.nearby_info').css('visibility', 'visible');
+ });
+ $(document).on('mouseleave','.nearby',function(){
+	 $(this).find('.nearby_photo').css('filter','');
+	 $(this).find('.nearby_info').css('visibility', 'hidden');
+	 });
+
+
+
+var lastScrollTop = 0;
+var easeEffect = 'easeInQuint';
+
+$(window).scroll(function(){
+	var currentScrollTop = $(window).scrollTop();
+
+	if(currentScrollTop-lastScrollTop>0){
+		if ($(window).scrollTop() >= $(document).height()-$(window).height()){
+			var lastbno = $('.scrolling:last').attr('data-bno');
+			console.log(lastbno);
+			var data = {
+					id: lastbno
+				};
+			$.ajax({
+				type:'post',
+				url : '/list/scrollDown',
+				data : JSON.stringify(data),
+				contentType : 'application/json; charset=utf-8',
+				dataType : 'json'
+			}).done(function(r){
+				console.log(r);
+				if(r != ""){
+					var str = '<div class="row">';
+					$(r).each(
+						function(){
+							
+							str += '<div class="col-md-4 my-3 listToChange">';
+							str += '<div class="card bg-light scrolling" data-bno="'+this.id+'">';
+							str += '<a href="/review/'+this.id+'">';
+							str += '<div class="nearby" style="position:relative">';
+							str += '<img src="/media/'+this.image1+'" class="card-img-top nearby_photo" style="cursor:pointer; z-index:11;" width="300px" height="300px" />';
+							str += '<div class="row nearby_info align-items-center justify-content-center" style="width:80%">';
+							str += '<p class="ml-4"><i class="fas fa-heart"></i>'+ this.likeCount+'</p>';
+							str += '<p class="ml-3"><i class="fas fa-bookmark right-float"></i>'+ this.clippingCount+'</p></div>';
+							str += '<div class="card-img-overlay ">';
+							str += '<div class="list-badge">';
+							str += '<span class="badge badge-light">'+this.location+'</span> ';
+							str += '<span class="badge badge-dark">'+this.category+'</span></div></div></a></div>';
+							str += '<div id="user" class="card-body text-dark " style="height: 70px;">';
+							str += '<div class="d-flex align-items-center">';
+							str += '<p class="card-text ">';
+							str += '<p class="img float-left mr-2">';
+							str += '<img src="/media/'+this.profile+'" class="border rounded-circle" onError="javascript:this.src=`/img/unknown.png`" width="36" height="36"></p>';
+							str += '<p class="name clearfix " style="font-size: 11px;">'+this.username+'</p>';
+							str += '<a href="/user/mypage/'+this.username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
+							str += '</div></p></div></div></div>';
+					});
+				//	$(".listToChange").empty();
+					$(".scrollLocation").after(str);
+
+				}
+				else{
+					console.log('데이터가 없습니다.');
+					}
+			
+
+				});
+
+				
+
+		}
+		lastScrollTop = currentScrollTop;
+
+
+		}else{
+			if($(window).scrollTop()<=0){
+				var firstbno = $('.scrolling:first').attr('data-bno');
+				var data = {
+						id: lastbno
+					};
+				$.ajax({
+					type:'post',
+					url : '/list/scrollDown',
+					data : JSON.stringify(data),
+					contentType : 'application/json; charset=utf-8',
+					dataType : 'json'
+				}).done(function(r){
+					console.log(r);
+					if(r != ""){
+						var str = '<div class="row">';
+						$(r).each(
+							function(){
+								
+								str += '<div class="col-md-4 my-3 listToChange">';
+								str += '<div class="card bg-light scrolling" data-bno="'+this.id+'">';
+								str += '<a href="/review/'+this.id+'">';
+								str += '<div class="nearby" style="position:relative">';
+								str += '<img src="/media/'+this.image1+'" class="card-img-top nearby_photo" style="cursor:pointer; z-index:11;" width="300px" height="300px" />';
+								str += '<div class="row nearby_info align-items-center justify-content-center" style="width:80%">';
+								str += '<p class="ml-4"><i class="fas fa-heart"></i>'+this.likeCount+'</p>';
+								str += '<p class="ml-3"><i class="fas fa-bookmark right-float"></i>'+this.clippingCount+'</p></div>';
+								str += '<div class="card-img-overlay ">';
+								str += '<div class="list-badge">';
+								str += '<span class="badge badge-light">'+this.location+'</span> ';
+								str += '<span class="badge badge-dark">'+this.category+'</span></div></div></a></div>';
+								str += '<div id="user" class="card-body text-dark " style="height: 70px;">';
+								str += '<div class="d-flex align-items-center">';
+								str += '<p class="card-text ">';
+								str += '<p class="img float-left mr-2">';
+								str += '<img src="/media/'+this.profile+'" class="border rounded-circle" onError="javascript:this.src=`/img/unknown.png`" width="36" height="36"></p>';
+								str += '<p class="name clearfix " style="font-size: 11px;">'+this.username+'</p>';
+								str += '<a href="/user/mypage/'+this.username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
+								str += '</div></p></div></div></div>';
+						});
+					//	$(".listToChange").empty();
+						$(".scrollLocation").after(str);
+
+					}
+					else{
+						console.log('데이터가 없습니다.');
+						}
+				
+
+					});
+
+				lastScrollTop = currentScrollTop;
+
+				
+			}		
+
+}
 });
+
+
+$(window).scroll(function(){
+    var scrolltop = parseInt ( $(window).scrollTop() );
+    if( scrolltop >= $(document).height() - $(window).height() - 5 ){
+        $('#dropdown-btn').css('bottom','70px');
+    }
+});
+
+$(window).scroll(function(){
+    var scrolltop = parseInt ( $(window).scrollTop() );
+    if( scrolltop <= $(document).height() - $(window).height() - 5 ){
+        $('#dropdown-btn').css('bottom','20px');
+    }
+});
+
+
+
 
 function privateFeed(userId){
 	$.ajax({

@@ -113,6 +113,7 @@
 	</div>
 	</div>
 </section>
+<%@include file="../include/footer.jsp"%>
 
 <script>
 $('#profile-delete').on('click', function() {

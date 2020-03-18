@@ -51,6 +51,10 @@ public class ReviewService {
 		return reviewRepository.findAll();
 	}
 	
+	public List<ReqAllDto> scrollDown(int id1, int id2){
+		return reviewRepository.scrollDown(id1, id2);
+	}
+	
 	public List<ReqAllDto> findByFollow(int userId){
 		return reviewRepository.findByFollow(userId);
 	}
