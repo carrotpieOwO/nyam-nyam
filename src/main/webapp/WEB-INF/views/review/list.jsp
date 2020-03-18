@@ -173,7 +173,7 @@
 
    	 
     
-    <div class="dropdown-menu">
+    <div id="dropdown-menu" class="dropdown-menu">
     <div class="d-flex ">
       <a class="dropdown-item text-center" onclick="mainCategory('cafe')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>
       <a class="dropdown-item text-center" onclick="mainCategory('restorant')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>
@@ -203,128 +203,70 @@
 
 
 
-var lastScrollTop = 0;
-var easeEffect = 'easeInQuint';
+$(document).ready(function(){
+	$(window).scroll(function(){
+		
+		
+			if ($(window).scrollTop() >= $(document).height()-$(window).height()){
+				let lastbno = $('.scrolling:last').attr('data-bno');
+				console.log(lastbno);
+				load_feed_box(lastbno);
 
-$(window).scroll(function(){
-	var currentScrollTop = $(window).scrollTop();
-
-	if(currentScrollTop-lastScrollTop>0){
-		if ($(window).scrollTop() >= $(document).height()-$(window).height()){
-			var lastbno = $('.scrolling:last').attr('data-bno');
-			console.log(lastbno);
-			var data = {
-					id: lastbno
-				};
-			$.ajax({
-				type:'post',
-				url : '/list/scrollDown',
-				data : JSON.stringify(data),
-				contentType : 'application/json; charset=utf-8',
-				dataType : 'json'
-			}).done(function(r){
-				console.log(r);
-				if(r != ""){
-					var str = '<div class="row">';
-					$(r).each(
-						function(){
-							
-							str += '<div class="col-md-4 my-3 listToChange">';
-							str += '<div class="card bg-light scrolling" data-bno="'+this.id+'">';
-							str += '<a href="/review/'+this.id+'">';
-							str += '<div class="nearby" style="position:relative">';
-							str += '<img src="/media/'+this.image1+'" class="card-img-top nearby_photo" style="cursor:pointer; z-index:11;" width="300px" height="300px" />';
-							str += '<div class="row nearby_info align-items-center justify-content-center" style="width:80%">';
-							str += '<p class="ml-4"><i class="fas fa-heart"></i>'+ this.likeCount+'</p>';
-							str += '<p class="ml-3"><i class="fas fa-bookmark right-float"></i>'+ this.clippingCount+'</p></div>';
-							str += '<div class="card-img-overlay ">';
-							str += '<div class="list-badge">';
-							str += '<span class="badge badge-light">'+this.location+'</span> ';
-							str += '<span class="badge badge-dark">'+this.category+'</span></div></div></a></div>';
-							str += '<div id="user" class="card-body text-dark " style="height: 70px;">';
-							str += '<div class="d-flex align-items-center">';
-							str += '<p class="card-text ">';
-							str += '<p class="img float-left mr-2">';
-							str += '<img src="/media/'+this.profile+'" class="border rounded-circle" onError="javascript:this.src=`/img/unknown.png`" width="36" height="36"></p>';
-							str += '<p class="name clearfix " style="font-size: 11px;">'+this.username+'</p>';
-							str += '<a href="/user/mypage/'+this.username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
-							str += '</div></p></div></div></div>';
-					});
-				//	$(".listToChange").empty();
-					$(".scrollLocation").after(str);
-
-				}
-				else{
-					console.log('데이터가 없습니다.');
-					}
-			
-
-				});
-
-				
-
-		}
-		lastScrollTop = currentScrollTop;
-
-
-		}else{
-			if($(window).scrollTop()<=0){
-				var firstbno = $('.scrolling:first').attr('data-bno');
-				var data = {
-						id: lastbno
-					};
-				$.ajax({
-					type:'post',
-					url : '/list/scrollDown',
-					data : JSON.stringify(data),
-					contentType : 'application/json; charset=utf-8',
-					dataType : 'json'
-				}).done(function(r){
-					console.log(r);
-					if(r != ""){
-						var str = '<div class="row">';
-						$(r).each(
-							function(){
-								
-								str += '<div class="col-md-4 my-3 listToChange">';
-								str += '<div class="card bg-light scrolling" data-bno="'+this.id+'">';
-								str += '<a href="/review/'+this.id+'">';
-								str += '<div class="nearby" style="position:relative">';
-								str += '<img src="/media/'+this.image1+'" class="card-img-top nearby_photo" style="cursor:pointer; z-index:11;" width="300px" height="300px" />';
-								str += '<div class="row nearby_info align-items-center justify-content-center" style="width:80%">';
-								str += '<p class="ml-4"><i class="fas fa-heart"></i>'+this.likeCount+'</p>';
-								str += '<p class="ml-3"><i class="fas fa-bookmark right-float"></i>'+this.clippingCount+'</p></div>';
-								str += '<div class="card-img-overlay ">';
-								str += '<div class="list-badge">';
-								str += '<span class="badge badge-light">'+this.location+'</span> ';
-								str += '<span class="badge badge-dark">'+this.category+'</span></div></div></a></div>';
-								str += '<div id="user" class="card-body text-dark " style="height: 70px;">';
-								str += '<div class="d-flex align-items-center">';
-								str += '<p class="card-text ">';
-								str += '<p class="img float-left mr-2">';
-								str += '<img src="/media/'+this.profile+'" class="border rounded-circle" onError="javascript:this.src=`/img/unknown.png`" width="36" height="36"></p>';
-								str += '<p class="name clearfix " style="font-size: 11px;">'+this.username+'</p>';
-								str += '<a href="/user/mypage/'+this.username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
-								str += '</div></p></div></div></div>';
-						});
-					//	$(".listToChange").empty();
-						$(".scrollLocation").after(str);
-
-					}
-					else{
-						console.log('데이터가 없습니다.');
-						}
-				
-
-					});
-
-				lastScrollTop = currentScrollTop;
-
-				
-			}		
-
-}
+			}
+	});
 });
+
+
+async function load_feed_box(lastbno){
+	let response = await fetch('/list/scrollDown/'+lastbno);
+	let feeds = await response.json();
+	
+	
+	console.log(feeds);
+
+	feeds.forEach(function(feed){
+		console.log(feed);
+		let feed_box = make_feed_box(feed);
+		$(".scrollLocation").append(feed_box);
+
+		});
+}
+
+
+function make_feed_box(feed){
+	let id = feed.id;
+	let image = feed.image1;
+	let username = feed.username;
+	let location = feed.location;
+	let profile = feed.profile;
+	let likeCount = feed.likeCount;
+	let category = feed.category;
+	let clippingCount = feed.clippingCount;
+	
+	let str = '<div class="col-md-4 my-3 listToChange">';
+	str += '<div class="card bg-light scrolling" data-bno="'+id+'">';
+	str += '<a href="/review/'+id+'">';
+	str += '<div class="nearby" style="position:relative">';
+	str += '<img src="/media/'+image+'" class="card-img-top nearby_photo" style="cursor:pointer; z-index:11;" width="300px" height="300px" />';
+	str += '<div class="row nearby_info align-items-center justify-content-center" style="width:80%">';
+	str += '<p class="ml-4"><i class="fas fa-heart"></i>'+likeCount+'</p>';
+	str += '<p class="ml-3"><i class="fas fa-bookmark right-float"></i>'+clippingCount+'</p></div>';
+	str += '<div class="card-img-overlay ">';
+	str += '<div class="list-badge">';
+	str += '<span class="badge badge-light">'+location+'</span> ';
+	str += '<span class="badge badge-dark">'+category+'</span></div></div></a></div>';
+	str += '<div id="user" class="card-body text-dark " style="height: 70px;">';
+	str += '<div class="d-flex align-items-center">';
+	str += '<p class="card-text ">';
+	str += '<p class="img float-left mr-2">';
+	str += '<img src="/media/'+profile+'" class="border rounded-circle" onError="javascript:this.src=`/img/unknown.png`" width="36" height="36"></p>';
+	str += '<p class="name clearfix " style="font-size: 11px;">'+username+'</p>';
+	str += '<a href="/user/mypage/'+username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
+	str += '</div></p></div></div></div>';
+
+	return str;
+}
+				
 
 
 $(window).scroll(function(){
@@ -344,10 +286,11 @@ $(window).scroll(function(){
 
 
 
+
 function privateFeed(userId){
 	$.ajax({
 		type : 'GET',
-		url : '/list/'+userId,
+		url : '/timeline/'+userId,
 		dataType : 'json' //응답 데이터, 데이터 주고받을땐 무조건 스트링으로 인식해서 이렇게 해줘야 제이슨으로 인식함
 	}).done(function(r) { //그래서 여기서 받을 때 잭슨이 제이슨을 자바스크립트로 바꿔줘서 자바스크립트 오브젝트화됨
 		console.log(r);
@@ -381,7 +324,7 @@ function privateFeed(userId){
 			alert('댓글 삭제 실패');
 		}
 	}).fail(function(r) {
-		alert('댓글 삭제 실패');
+		$(location).attr('href','user/login');
 	});
 	
 }
@@ -419,21 +362,23 @@ function locationFeed(location){
 			res += '<p class="name clearfix " style="font-size: 11px;">'+r[i].username+'</p>';
 			res += '<a href="/user/mypage/'+r[i].username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
 			res += '</div></p></div></div></div>';
-			res += '<div class="dropdown dropleft float-right">';
-			res += '<button type="button" class="btn btn-warning btn-lg rounded-circle" data-toggle="dropdown" style="position:fixed; bottom:20px; right:20px; width:50px; height:50px;">';
-			res += '<i class="fas fa-sliders-h "></i></button>';
-			res += '<div class="dropdown-menu">';
-			res += '<div class="d-flex ">';
-			res += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'cafe\')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'restorant\')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterLike(\''+location+'\')" ><i class="fas fa-heart"></i><br><p class="my-0" style="font-size:10px;">핫한</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterClip(\''+location+'\')"><i class="fas fa-bookmark"></i><br><p class="my-0" style="font-size:10px;">보관많은</p></a>';
-			res += '</div></div></div>';
+
 			
 		}
+		var dropdown = '<div class="d-flex ">';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'cafe\')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'restorant\')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterLike(\''+location+'\')" ><i class="fas fa-heart"></i><br><p class="my-0" style="font-size:10px;">핫한</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterClip(\''+location+'\')"><i class="fas fa-bookmark"></i><br><p class="my-0" style="font-size:10px;">보관많은</p></a>';
+		dropdown += '</div>';
+
+
+		
 	$('#feed-container').html(res);
 	$('#explore').attr('class','btn btn-outline-dark active');
 	$('#feed').attr('class','btn btn-outline-dark');
+	$('#dropdown-menu').html(dropdown);
+	
 	if(location == 'busan'){
 		$('.masthead').css('background-image','url(https://dimg04.c-ctrip.com/images/100e15000000xse28F0B0_C_750_350.jpg?proc=source%2ftrip)');
 		$('.intro-lead-in').text('BUSAN');
@@ -478,18 +423,17 @@ function filterLike(location){
 			res += '<p class="name clearfix " style="font-size: 11px;">'+r[i].username+'</p>';
 			res += '<a href="/user/mypage/'+r[i].username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
 			res += '</div></p></div></div></div>';
-			res += '<div class="dropdown dropleft float-right">';
-			res += '<button type="button" class="btn btn-warning btn-lg rounded-circle" data-toggle="dropdown" style="position:fixed; bottom:20px; right:20px; width:50px; height:50px;">';
-			res += '<i class="fas fa-sliders-h "></i></button>';
-			res += '<div class="dropdown-menu">';
-			res += '<div class="d-flex ">';
-			res += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'cafe\')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'restorant\')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterLike('+location+')" ><i class="fas fa-heart"></i><br><p class="my-0" style="font-size:10px;">핫한</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterClip(\''+location+'\')"><i class="fas fa-bookmark"></i><br><p class="my-0" style="font-size:10px;">보관많은</p></a>';
-			res += '</div></div></div>';
+			
 			
 		}
+		var dropdown = '<div class="d-flex ">';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'cafe\')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'restorant\')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterLike(\''+location+'\')" ><i class="fas fa-heart"></i><br><p class="my-0" style="font-size:10px;">핫한</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterClip(\''+location+'\')"><i class="fas fa-bookmark"></i><br><p class="my-0" style="font-size:10px;">보관많은</p></a>';
+		dropdown += '</div>';
+		$('#dropdown-menu').html(dropdown);
+		
 	$('#feed-container').html(res);
 	
 		}else{
@@ -531,18 +475,16 @@ function filterClip(location){
 			res += '<p class="name clearfix " style="font-size: 11px;">'+r[i].username+'</p>';
 			res += '<a href="/user/mypage/'+r[i].username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
 			res += '</div></p></div></div></div>';
-			res += '<div class="dropdown dropleft float-right">';
-			res += '<button type="button" class="btn btn-warning btn-lg rounded-circle" data-toggle="dropdown" style="position:fixed; bottom:20px; right:20px; width:50px; height:50px;">';
-			res += '<i class="fas fa-sliders-h "></i></button>';
-			res += '<div class="dropdown-menu">';
-			res += '<div class="d-flex ">';
-			res += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'cafe\')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'restorant\')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filter-like('+location+')" ><i class="fas fa-heart"></i><br><p class="my-0" style="font-size:10px;">핫한</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filter-clip(\''+location+'\')"><i class="fas fa-bookmark"></i><br><p class="my-0" style="font-size:10px;">보관많은</p></a>';
-			res += '</div></div></div>';
+		
 			
 		}
+		var dropdown = '<div class="d-flex ">';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'cafe\')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'restorant\')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterLike(\''+location+'\')" ><i class="fas fa-heart"></i><br><p class="my-0" style="font-size:10px;">핫한</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterClip(\''+location+'\')"><i class="fas fa-bookmark"></i><br><p class="my-0" style="font-size:10px;">보관많은</p></a>';
+		dropdown += '</div>';
+		$('#dropdown-menu').html(dropdown);
 	$('#feed-container').html(res);
 
 		}else{
@@ -586,18 +528,16 @@ function filterCategory(location, category){
 			res += '<p class="name clearfix " style="font-size: 11px;">'+r[i].username+'</p>';
 			res += '<a href="/user/mypage/'+r[i].username+'" class="btn btn-warning mb-auto ml-auto" style="cursor: pointer; z-index:10"><i class="fas fa-home"></i></a>';
 			res += '</div></p></div></div></div>';
-			res += '<div class="dropdown dropleft float-right">';
-			res += '<button type="button" class="btn btn-warning btn-lg rounded-circle" data-toggle="dropdown" style="position:fixed; bottom:20px; right:20px; width:50px; height:50px;">';
-			res += '<i class="fas fa-sliders-h "></i></button>';
-			res += '<div class="dropdown-menu">';
-			res += '<div class="d-flex ">';
-			res += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'cafe\')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'restorant\')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterLike('+location+')" ><i class="fas fa-heart"></i><br><p class="my-0" style="font-size:10px;">핫한</p></a>';
-			res += '<a class="dropdown-item text-center" onclick="filterClip(\''+location+'\')"><i class="fas fa-bookmark"></i><br><p class="my-0" style="font-size:10px;">보관많은</p></a>';
-			res += '</div></div></div>';
+		
 			
 		}
+		var dropdown = '<div class="d-flex ">';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'cafe\')"><i class="fas fa-coffee"></i><br><p class="my-0" style="font-size:10px;">카페</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterCategory(\''+location+'\',\'restorant\')"><i class="fas fa-utensils"></i><br><p class="my-0 " style="font-size:10px;">음식점</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterLike(\''+location+'\')" ><i class="fas fa-heart"></i><br><p class="my-0" style="font-size:10px;">핫한</p></a>';
+		dropdown += '<a class="dropdown-item text-center" onclick="filterClip(\''+location+'\')"><i class="fas fa-bookmark"></i><br><p class="my-0" style="font-size:10px;">보관많은</p></a>';
+		dropdown += '</div>';
+		$('#dropdown-menu').html(dropdown);
 	$('#feed-container').html(res);
 	
 		}else{

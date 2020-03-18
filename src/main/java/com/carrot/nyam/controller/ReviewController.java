@@ -114,17 +114,16 @@ public class ReviewController {
 		return "/review/list";
 	}
 
-	@PostMapping("/list/scrollDown")
-	public @ResponseBody List<ReqAllDto> scrollDown(@RequestBody ReqScrollDto reqScrollDto){
+	@GetMapping("/list/scrollDown/{bno}")
+	public @ResponseBody List<ReqAllDto> scrollDown(@PathVariable int bno){
 		//유저랭킹
 	
 		
 		
-		int bnoToStart = reqScrollDto.getId();
 		
-		
-		System.out.println("아이디값 "+bnoToStart);
-		List<ReqAllDto> feeds = reviewService.scrollDown(bnoToStart, bnoToStart);
+		System.out.println("아이디값 "+bno);
+		List<ReqAllDto> feeds = reviewService.scrollDown(bno, bno);
+		System.out.println(feeds);
 
 		
 		for(int i=0; i<feeds.size(); i++) {
@@ -144,7 +143,7 @@ public class ReviewController {
 	
 	
 	//메인화면-타임라인
-		@GetMapping("/list/{userId}")
+		@GetMapping("/timeline/{userId}")
 		public @ResponseBody List<ReqAllDto> feeds(@PathVariable int userId ) {
 			List<ReqAllDto> feeds = reviewService.findByFollow(userId);
 			
