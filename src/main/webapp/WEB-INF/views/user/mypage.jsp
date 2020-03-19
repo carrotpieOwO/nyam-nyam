@@ -79,7 +79,7 @@
   	<c:when test="${not empty reviews}">
     <li style="width: 300px;" ><a href="/user/mypage/${user.username}" ><i class="far fa-images"></i> ${reviews[0].count} 개</a></li>
     <li style="width: 300px;">
-      <a href="javascript:getClippings(${user.id})"><i class="fas fa-bookmark"></i> ${reviews[0].clippingCount} 개</a>
+      <a href="javascript:getClippings(${user.id})"><i class="fas fa-bookmark"></i> ${reviews[0].myClippingCount} 개</a>
     </li>
     </c:when>
     <c:otherwise>
@@ -197,18 +197,17 @@
 <script src="/js/follow.js"></script>
 <script>
 //호버로 정보보여주기
-$( document ).ready(function() {
-	$('.nearby').hover(function(){
-		$(this).find('.nearby_photo').css('filter', 'brightness(0.30)');
-		$(this).find('.nearby_info').css('visibility', 'visible');
-	
-	}, function(){
-	$(this).find('.nearby_photo').css('filter','');
-	$(this).find('.nearby_info').css('visibility', 'hidden');
-	
-	
-	});
-});
+ $(document).on('mouseenter','.nearby',function(){
+
+	$(this).find('.nearby_photo').css('filter', 'brightness(0.30)');
+	$(this).find('.nearby_info').css('visibility', 'visible');
+ });
+ $(document).on('mouseleave','.nearby',function(){
+	 $(this).find('.nearby_photo').css('filter','');
+	 $(this).find('.nearby_info').css('visibility', 'hidden');
+	 });
+
+
 
 	$('#update-submit').on("click", function() {
 		var data = {
@@ -254,12 +253,17 @@ $( document ).ready(function() {
 				var rating = r[i].rating;
 				var likeCount = r[i].likeCount;
 				var clippingCount = r[i].clippingCount;
+				var shopName = r[i].shopName;
 				
-				res +='<div class="col-md-3">';
-				res += '<div class="card review" style="position: relative;" >';
-				res += '<a href="/review/'+reviewId+'"><img class="card-img-top" src="/media/'+Image+'" width="250" height="250">';
+				res +='<div class="col-md-3" id="review-cards">';
+				res += '<div class="card review" >';
+				res += '<div class="nearby" style="position:relative">';
+				res += '<a href="/review/'+reviewId+'">'
+				res += '<img class="card-img-top nearby_photo" style="cursor:pointer; z-index:11;" src="/media/'+Image+'" width="250" height="250">';
+				res += '<div class="row nearby_info align-items-center justify-content-center" style="width:80%">';
+				res += '<p class="ml-4"><i class="fas fa-utensils"></i> '+shopName+'</p></div>';
 				res += '<div class="card-img-overlay">';
-				res += '<span class="badge badge-dark" style="opacity: 80%; position:absolute; top:20px; left:20px;"><i class="fas fa-map-marker-alt" style="font-size: 12px; "></i>'+location+'</span></div></a>';
+				res += '<span class="badge badge-dark" style="opacity: 80%; position:absolute; top:20px; left:20px;"><i class="fas fa-map-marker-alt" style="font-size: 12px; "></i>'+location+'</span></div></a></div>';
 				res += '<div class="card-header text-center">';
 				res += '<p id="star_grade" class="mb-0">';
 				if(rating==0){
@@ -284,7 +288,7 @@ $( document ).ready(function() {
 				res += '<div class="card-body d-flex justify-content-between align-items-center" style="height: 10px;">';
 				res += '<i class="far fa-heart ml-3"> '+likeCount+'</i>';
 				res += '<i class="far fa-bookmark mr-3"> '+clippingCount+'</i>';
-				res += '</div></div></div>';
+				res += '</div></div></div></div>';
 
 			}
 			$('#review-container').html(res);

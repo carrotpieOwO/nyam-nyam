@@ -118,7 +118,9 @@ public class UserController {
 			  dto.setLocation(loc[2]);
 			  int likeCount = likesRepository.likeCount(dto.getId());
 			  dto.setLikeCount(likeCount);
-			  int clippingCount = clippingRepository.clippingCount(user.getId());
+			  int myClippingCount = clippingRepository.myClippingCount(user.getId());
+			  dto.setMyClippingCount(myClippingCount);
+			  int clippingCount = clippingRepository.clippingCount(dto.getId());
 			  dto.setClippingCount(clippingCount);
 			 
 		  }

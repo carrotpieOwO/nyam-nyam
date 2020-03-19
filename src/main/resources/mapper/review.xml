@@ -101,10 +101,10 @@
 	
 	<!-- 지역별 보관순 -->
 	<select id="findLocationByClip" resultType="com.carrot.nyam.model.review.dto.ReqAllDto">
-		select count(c.id)count, r.id, r.image1, r.location, r.category, u.username, u.profile 
+		select count(c.id) as clippingCount, r.id, r.image1, r.location, r.category, u.username, u.profile 
 		from review r inner join clipping c on r.id=c.reviewId  inner join user u on r.userId = u.id
 		where r.location regexp '${location}'
-		group by reviewId order by count desc
+		group by reviewId order by clippingCount desc
 	</select>
 	
 	<!-- 지역별 카테고리 분류 -->

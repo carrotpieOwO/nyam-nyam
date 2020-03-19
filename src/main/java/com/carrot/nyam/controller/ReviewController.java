@@ -104,6 +104,7 @@ public class ReviewController {
 			  feeds.get(i).setLikeCount(likeCount);
 			  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
 			  feeds.get(i).setClippingCount(clippingCount);
+			  System.out.println("보관:" +clippingCount);
 		}
 		
 		
@@ -133,6 +134,7 @@ public class ReviewController {
 			  feeds.get(i).setLikeCount(likeCount);
 			  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
 			  feeds.get(i).setClippingCount(clippingCount);
+			  
 		}
 		
 		
@@ -149,7 +151,11 @@ public class ReviewController {
 			
 			for(int i=0; i<feeds.size(); i++) {
 				 String[] loc = feeds.get(i).getLocation().split("\\s");
-				 feeds.get(i).setLocation(loc[0]);		
+				 feeds.get(i).setLocation(loc[0]);
+				 int likeCount = likesRepository.likeCount(feeds.get(i).getId());
+				  feeds.get(i).setLikeCount(likeCount);
+				  int clippingCount = clippingRepository.clippingCount(feeds.get(i).getId());
+				  feeds.get(i).setClippingCount(clippingCount);
 			}
 			
 			
@@ -184,6 +190,11 @@ public class ReviewController {
 			for(int i=0; i<locations.size(); i++) {
 				 String[] loc = locations.get(i).getLocation().split("\\s");
 				 locations.get(i).setLocation(loc[2]);	
+				 int likeCount = likesRepository.likeCount(locations.get(i).getId());
+				  locations.get(i).setLikeCount(likeCount);
+				  int clippingCount = clippingRepository.clippingCount(locations.get(i).getId());
+				  locations.get(i).setClippingCount(clippingCount);
+				 
 			}
 			
 			return locations;
@@ -198,6 +209,10 @@ public class ReviewController {
 		for(int i=0; i<locations.size(); i++) {
 			 String[] loc = locations.get(i).getLocation().split("\\s");
 			 locations.get(i).setLocation(loc[1]);	
+			 int likeCount = likesRepository.likeCount(locations.get(i).getId());
+			  locations.get(i).setLikeCount(likeCount);
+			  int clippingCount = clippingRepository.clippingCount(locations.get(i).getId());
+			  locations.get(i).setClippingCount(clippingCount);
 		}
 		
 		return locations;
@@ -231,6 +246,10 @@ public class ReviewController {
 				for(int i=0; i<locations.size(); i++) {
 					 String[] loc = locations.get(i).getLocation().split("\\s");
 					 locations.get(i).setLocation(loc[2]);	
+					 int likeCount = likesRepository.likeCount(locations.get(i).getId());
+					  locations.get(i).setLikeCount(likeCount);
+					  int clippingCount = clippingRepository.clippingCount(locations.get(i).getId());
+					  locations.get(i).setClippingCount(clippingCount);
 				}
 				
 				return locations;
@@ -260,10 +279,15 @@ public class ReviewController {
 			    System.out.println(location);
 
 				List<ReqAllDto> locations = reviewService.findLocationByClip(location);
-				
 				for(int i=0; i<locations.size(); i++) {
+					System.out.println("보관수"+locations.get(i).getClippingCount()+"아이디"+locations.get(i).getId());
+					
 					 String[] loc = locations.get(i).getLocation().split("\\s");
 					 locations.get(i).setLocation(loc[2]);	
+					 int likeCount = likesRepository.likeCount(locations.get(i).getId());
+					  locations.get(i).setLikeCount(likeCount);
+						System.out.println(locations);
+
 				}
 				
 				return locations;
@@ -308,6 +332,10 @@ public class ReviewController {
 					for(int i=0; i<locations.size(); i++) {
 						 String[] loc = locations.get(i).getLocation().split("\\s");
 						 locations.get(i).setLocation(loc[2]);	
+						 int likeCount = likesRepository.likeCount(locations.get(i).getId());
+						  locations.get(i).setLikeCount(likeCount);
+						  int clippingCount = clippingRepository.clippingCount(locations.get(i).getId());
+						  locations.get(i).setClippingCount(clippingCount);
 					}
 				}
 				
@@ -331,6 +359,10 @@ public class ReviewController {
 				for(int i=0; i<dtos.size(); i++) {
 					 String[] loc = dtos.get(i).getLocation().split("\\s");
 					 dtos.get(i).setLocation(loc[2]);	
+					 int likeCount = likesRepository.likeCount(dtos.get(i).getId());
+					  dtos.get(i).setLikeCount(likeCount);
+					  int clippingCount = clippingRepository.clippingCount(dtos.get(i).getId());
+					  dtos.get(i).setClippingCount(clippingCount);
 				}
 				
 				return dtos;

@@ -25,5 +25,6 @@ public class RespListDto {
 	private int count;
 	private int likeCount;
 	private int clippingCount;
+	private int myClippingCount;
 	
 }

@@ -24,6 +24,8 @@
 	        </c:when>
 	        <c:otherwise>
 			<c:choose>
+				<c:when test="${empty principal.id}">
+				</c:when>
        	 		<c:when test="${review.follow eq true}">
        	 			<input type="hidden" id="followBoolean" value="true">
        	 			<a onclick="follow(${principal.id},${review.userId})" id="follow-true" class="btn btn-outline-dark ml-auto mt-2">
@@ -34,7 +36,7 @@
        	 			<a onclick="follow(${principal.id},${review.userId})" id="follow-false" class="btn btn-primary ml-auto mt-2  text-white">
        	 			<i id="plus" class="fas fa-user-plus"></i> 팔로우</a>
        	 		</c:otherwise>
-       	 	</c:choose>	        
+       	 	</c:choose>	   
 	        </c:otherwise>
         </c:choose>
         </div>
@@ -126,8 +128,8 @@
               <c:if test="${comment.userId ne principal.id}">
               <div class="row align-items-center ml-1" style="height: 70px;">
                 <div class="profile">
-                  <a href="/user/mypage/${comment.username}">
-                  <img src="/media/${comment.profile}"  onError="javascript:this.src='/img/unknown.png'" class="rounded-circle border" width="40" height="40"></a>
+                  <a onclick="/user/mypage/${comment.username}" style="cursor: pointer">
+                  <img src="/media/${comment.profile}" onError="javascript:this.src='/img/unknown.png'" class="rounded-circle border" width="40" height="40"></a>
                     <p class="my-auto" style="font-size: 11px;">
                     <fmt:formatDate value="${comment.createDate}" pattern="yyyy-MM-dd" /></p> 
                 <!-- /.avatar --></div>
@@ -151,7 +153,7 @@
                   <a href="/user/mypage/${principal.username}">
                   <img src="/media/${principal.profile}"  onError="javascript:this.src='/img/unknown.png'" class="rounded-circle border" width="40" height="40"></a>
                     <p class="my-auto" style="font-size: 11px;">
-                    <fmt:formatDate value="${comment.createDate}" pattern="yyyy-MM-dd" /></p> 
+                    <fmt:formatDate value="${comment.createDate}" pattern="yyyy-MM-dd" /></p>
                 <!-- /.avatar --></div>
                </div>
              </c:if>
@@ -160,21 +162,24 @@
                           </div>
             
             <!--  댓글쓰기  -->
+                        <c:if test="${not empty principal.id}">
+           
             <div class="card-footer">
             <input type="hidden" id="reviewId" value="${review.id}" /> 
                    <input type="hidden" id="userId" value="${principal.id}" />
                  <div class="input-group align-items-center">
                    <div class="profile mr-2 ">
                      <a href="/user/mypage/${principal.username}">
-                  <img src="/media/${principal.profile}" class="rounded-circle border" width="40" height="40"></a></div>
+                  <img src="/media/${principal.profile}" onError="javascript:this.src='/img/unknown.png'"  class="rounded-circle border" width="40" height="40"></a></div>
                    <input type="text" id="content" class="form-control form-control-sm" placeholder="댓글달기...">
                    
                    <div class="input-group-append">
                      <button id="comment-submit" class="btn btn-secondary btn-sm " type="submit">보내기</button>
                    </div>
                  </div>      
-       
             </div>
+                   </c:if>
+            
           </div>
         
 </div>
