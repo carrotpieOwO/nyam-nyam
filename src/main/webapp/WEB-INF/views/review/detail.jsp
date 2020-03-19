@@ -349,7 +349,7 @@ function placesSearchCB(data, status, pagination) {
 
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
-        alert('검색 결과가 존재하지 않습니다.');
+//        alert('검색 결과가 존재하지 않습니다.');
         return;
 
     } else if (status === kakao.maps.services.Status.ERROR) {
@@ -498,7 +498,7 @@ function addMarker(position, idx, title) {
 		comment_item += '<i class="fas fa-times-circle bg-white rounded-circle"></i></a></div></div>';
 		comment_item += '<div class="profile">';
 		comment_item += '<a href="/user/mypage/'+username+'">';
-		comment_item += '<img src="/media/'+profile+'" class="rounded-circle border" width="40" height="40"></a></div>';
+		comment_item += '<img src="/media/'+profile+'" onError="javascript:this.src=`/img/unknown.png`" class="rounded-circle border" width="40" height="40"></a>';
 		comment_item += '<p class="my-auto" style="font-size: 11px;">'+createDate+'</p>';
 		comment_item += '</div></div>';
 		$('#comment-items').append(comment_item);

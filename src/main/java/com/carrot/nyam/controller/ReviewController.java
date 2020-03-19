@@ -482,6 +482,8 @@ public class ReviewController {
 		model.addAttribute("tags", tags);
 		model.addAttribute("nearDtos", nearDtos);
 		model.addAttribute("comments",commentService.list(reviewId));
+		
+		System.out.println("comments:"+commentService.list(reviewId));
 		return "/review/detail";
 	}
 

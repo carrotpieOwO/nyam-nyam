@@ -1,5 +1,7 @@
 package com.carrot.nyam.model.comment.dto;
 
+import java.sql.Timestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,4 +14,5 @@ public class ReqWriteDto {
 	private int userId;
 	private int reviewId;
 	private String content;
+	private  Timestamp createDate;
 }
