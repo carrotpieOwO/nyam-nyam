@@ -248,7 +248,17 @@ public class UserController {
 	
 	//프로필 수정(기본정보)
 	@PutMapping("user/profile")
-	public ResponseEntity<?> profile (@RequestBody ReqProfileDto dto, @AuthenticationPrincipal User principal) {
+	public ResponseEntity<?> profile (@Valid @RequestBody ReqProfileDto dto, @AuthenticationPrincipal User principal, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+			
+			for(FieldError error:bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(), error.getDefaultMessage());
+			}
+			System.out.println(errorMap);
+			return new ResponseEntity<Map<String,String>>(errorMap,HttpStatus.BAD_REQUEST);
+		}
+		
 		int result = userService.updateProfile(dto,principal);
 		
 		if(result==1) {
@@ -261,19 +271,23 @@ public class UserController {
 	//프로필 수정(자기소개)
 	@PutMapping("user/userinfo")
 	public @ResponseBody String userinfo
-	(@RequestParam int id, @RequestParam MultipartFile profile, @RequestParam String introduction, 
+	(@RequestParam int id, @RequestParam MultipartFile profile, @RequestParam String deleteProfile, @RequestParam String introduction, 
 			@RequestParam String insta, @RequestParam String blog, @AuthenticationPrincipal User principal) {
 		System.out.println(id);
+		System.out.println("deleteProfile:"+deleteProfile);
+		System.out.println("프로필:"+profile.getOriginalFilename());
 		UUID uuid = UUID.randomUUID();
 		String uuidFilename;
-				
-		if(!profile.getOriginalFilename().equals("")) {
-			uuidFilename= uuid+"_"+profile.getOriginalFilename();
-		}else {
+		if(profile.getOriginalFilename().equals("") && !deleteProfile.equals("true")) {
+			uuidFilename= principal.getProfile();
+		}else if(deleteProfile.equals("true")){
 			uuidFilename="";
 		}
+		else{
+			uuidFilename= uuid+"_"+profile.getOriginalFilename();
+		}
 		
-		if(!uuidFilename.equals("")) {
+		if(!uuidFilename.equals("") && !uuidFilename.equals(principal.getProfile())) {
 			Path filePath = Paths.get(fileRealPath+uuidFilename);
 			try {
 				Files.write(filePath, profile.getBytes());

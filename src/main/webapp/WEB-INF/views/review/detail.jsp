@@ -83,7 +83,7 @@
 			</div>
           
             <div class="card-img-overlay">
-             <a type="button" class="badge badge-dark" style="opacity: 70%;"  data-toggle="modal" data-target="#likeModal" data-submit='${review.id}'> 
+             <a type="button" class="badge badge-dark" style="opacity: 70%;"  data-toggle="modal" data-target="#likeModal" data-submit='${review.id}' data-principal='${principal.id}'> 
                <h4 class="my-auto mx-auto" style="color: white; letter-spacing: 4px"> <i id="likeCount" class="far fa-heart">${review.likeCount}</i></h4></a>
             </div>
             <div class="card-header">
@@ -527,6 +527,10 @@ function addMarker(position, idx, title) {
 
 		//좋아요
 		function like(reviewId){
+			if(!$('#userId').val()){
+				location.href = '/user/login';
+				return;
+			}
 			var data = {
 					reviewId: $('#reviewId').val(),
 					userId: $('#userId').val()
@@ -560,6 +564,10 @@ function addMarker(position, idx, title) {
 
 		//북마크
 		function clipping(reviewId){
+			if(!$('#userId').val()){
+				location.href = '/user/login';
+				return;
+			}
 			var data = {
 					reviewId: $('#reviewId').val(),
 					userId: $('#userId').val()

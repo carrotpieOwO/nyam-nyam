@@ -319,9 +319,10 @@ function privateFeed(userId){
 			res += '</p></div></div></div></div>';
 		}
 	$('#feed-container').html(res);
+	$('#dropdown-btn').css('visibility','hidden');
 	$('#explore').attr('class','btn btn-outline-dark');
 		}else{
-			alert('댓글 삭제 실패');
+			alert('팔로우 중인 유저가 없습니다.');
 		}
 	}).fail(function(r) {
 		$(location).attr('href','user/login');
@@ -377,6 +378,7 @@ function locationFeed(location){
 	$('#feed-container').html(res);
 	$('#explore').attr('class','btn btn-outline-dark active');
 	$('#feed').attr('class','btn btn-outline-dark');
+	$('#dropdown-btn').css('visibility','visible');
 	$('#dropdown-menu').html(dropdown);
 	
 	if(location == 'busan'){

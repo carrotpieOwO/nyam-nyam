@@ -50,6 +50,7 @@
 							<div class="row justify-content-center mt-2">
 								<input type="file" id="input_img" name="profile"
 									class="form-control-file border mt-1" style="width: 50%;"><br>
+								<input type="hidden" id="deleteProfile" name="deleteProfile">
 								<button type="button"
 									id="profile-delete" class="btn btn-secondary btn-sm ml-2"
 									style="width: 60px;">삭제</button>
@@ -120,6 +121,7 @@ $('#profile-delete').on('click', function() {
 	/* $('img').src='/img/unknown.png'; */
 	$('#img').attr('src','/img/unknown.png');
 	$('#input_img').val("");
+	$('#deleteProfile').val('true');
 });
 
 	var sel_file;

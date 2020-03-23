@@ -358,7 +358,7 @@ public class ReviewController {
 				
 				for(int i=0; i<dtos.size(); i++) {
 					 String[] loc = dtos.get(i).getLocation().split("\\s");
-					 dtos.get(i).setLocation(loc[2]);	
+					 dtos.get(i).setLocation(loc[0]);	
 					 int likeCount = likesRepository.likeCount(dtos.get(i).getId());
 					  dtos.get(i).setLikeCount(likeCount);
 					  int clippingCount = clippingRepository.clippingCount(dtos.get(i).getId());

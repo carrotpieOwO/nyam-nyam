@@ -62,8 +62,10 @@
 
 	$('#followModal').on('show.bs.modal', function (e) { 
 		var fromUser = $(e.relatedTarget).data('submit'); 
+		var principal = $(e.relatedTarget).data('principal');
 		/* var followCount = ${reviews[i].followCount}
 		var followerCount = ${reviews[i].followerCount} */
+		console.log(principal);
 		console.log(fromUser);
 		$.ajax({
 			type : 'GET',
@@ -79,7 +81,6 @@
 					var username=r[i].username;
 					var profile = r[i].profile;
 					var toUser = r[i].toUser;
-					var principal = ${principal.id};
 					var followCount = r[i].followCount;
 					var followerCount = r[i].followerCount;
 					console.log('프린시펄:'+principal);
@@ -96,16 +97,20 @@
 					res += '<p class="my-auto" style="font-size: 11px;">';
 					res += '팔로잉<strong id="mFollowCount-'+toUser+'">'+followCount+'</strong> ';
 					res += ' 팔로워<strong id="mFollowerCount-'+toUser+'">'+followerCount+'</strong></p></div>';
-					if(principal != toUser){
+
+					if(principal ==''){
+
+					}
+					else if(principal != toUser){
 						if(r[i].follow == true){
 							
 							res+='<input type="hidden" id="followBoolean-'+toUser+'" value="true">';
-							res+='<a onclick="mFollow('+principal+','+toUser+')" id="follow-true-modal-'+toUser+'" class="btn btn-outline-dark ml-auto mt-2">';
+							res+='<a onclick="mFollow('+principal+','+toUser+','+principal+')" id="follow-true-modal-'+toUser+'" class="btn btn-outline-dark ml-auto mt-2">';
 							res+='<i id="check" class="fas fa-user-check"></i> 팔로잉</a>';
 							
 						}else{
 							res+='<input type="hidden" id="followBoolean-'+toUser+'" value="false">';
-							res+='<a onclick="mFollow('+principal+','+toUser+')" id="follow-false-modal-'+toUser+'" class="btn btn-primary ml-auto mt-2  text-white">';
+							res+='<a onclick="mFollow('+principal+','+toUser+','+principal+')" id="follow-false-modal-'+toUser+'" class="btn btn-primary ml-auto mt-2  text-white">';
 							res+='<i id="plus" class="fas fa-user-plus"></i> 팔로우</a>';
 								
 						}
@@ -130,6 +135,7 @@
 		
 	$('#followerModal').on('show.bs.modal', function (e) { 
 		var toUser = $(e.relatedTarget).data('submit'); 
+		var principal = $(e.relatedTarget).data('principal');
 
 		$.ajax({
 			type : 'GET',
@@ -146,7 +152,6 @@
 					var profile = r[i].profile;
 					var toUser = r[i].toUser;
 					var fromUser = r[i].fromUser;
-					var principal = ${principal.id};
 					var followCount = r[i].followCount;
 					var followerCount = r[i].followerCount;
 					console.log(r[i].follow);
@@ -163,14 +168,18 @@
 					res += '<p class="my-auto" style="font-size: 11px;">';
 					res += '팔로잉<strong id="mFollowCount-'+fromUser+'">'+followCount+'</strong> ';
 					res += ' 팔로워<strong id="mFollowerCount-'+fromUser+'">'+followerCount+'</strong></p></div>';
-					if(principal != fromUser){
+
+					if(principal ==''){
+
+					}
+					else if(principal != fromUser){
 						if(r[i].follow == true){
 							res+='<input type="hidden" id="followBoolean-'+fromUser+'" value="true">';
-							res+='<a onclick="mFollow('+principal+','+fromUser+')" id="follower-true-modal-'+fromUser+'" class="btn btn-outline-dark ml-auto mt-2">';
+							res+='<a onclick="mFollow('+principal+','+fromUser+','+principal+')" id="follower-true-modal-'+fromUser+'" class="btn btn-outline-dark ml-auto mt-2">';
 							res+='<i id="check" class="fas fa-user-check"></i> 팔로잉</a>';
 						}else{
 							res+='<input type="hidden" id="followBoolean-'+fromUser+'" value="false">';
-							res+='<a onclick="mFollow('+principal+','+fromUser+')" id="follower-false-modal-'+fromUser+'" class="btn btn-primary ml-auto mt-2  text-white">';
+							res+='<a onclick="mFollow('+principal+','+fromUser+','+principal+')" id="follower-false-modal-'+fromUser+'" class="btn btn-primary ml-auto mt-2  text-white">';
 							res+='<i id="plus" class="fas fa-user-plus"></i> 팔로우</a>'	
 						}
 
@@ -191,10 +200,11 @@
 	});
 
 	//팔로우
-	function mFollow(fromUserId, toUserId){
+	function mFollow(fromUserId, toUserId, principal){
 		console.log(toUserId);
 		console.log(fromUserId);
-
+		console.log(principal);
+		
 		console.log('#follow-true')
 			var data = {
 					fromUser: fromUserId,
@@ -216,7 +226,6 @@
 						let mFollowCount = $('#mFollowCount').text();
 						let mFollowerCount = $('#mFollowerCount').text();
 						let followCount = $('#followCount').text();
-						let principal = ${principal.id};
 						let myUser = ${user.id};
 						let toUser = toUserId;
 						let fromUser = fromUserId;

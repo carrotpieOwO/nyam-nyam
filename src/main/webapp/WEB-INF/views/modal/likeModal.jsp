@@ -30,7 +30,8 @@
 
 	$('#likeModal').on('show.bs.modal', function (e) { 
 		var reviewId = $(e.relatedTarget).data('submit'); 
-		
+		var principal = $(e.relatedTarget).data('principal'); 
+		console.log(principal);
 		$.ajax({
 			type : 'GET',
 			url : '/likeInfo/'+ reviewId,
@@ -44,7 +45,6 @@
 					var username=r[i].username;
 					var profile = r[i].profile;
 					var userId = r[i].userId;
-					var principal = ${principal.id};
 					var followCount = r[i].followCount;
 					var followerCount = r[i].followerCount;
 					
@@ -60,7 +60,11 @@
 					res += '<p class="my-auto" style="font-size: 11px;">';
 					res += '팔로잉<strong id="mFollowCount-'+userId+'">'+followCount+'</strong> ';
 					res += ' 팔로워<strong id="mFollowerCount-'+userId+'">'+followerCount+'</strong></p></div>';
-					if(principal != userId){
+
+					if(principal == ''){
+
+					}
+					else if(principal != userId){
 						if(r[i].follow == true){
 							
 							res+='<input type="hidden" id="followBoolean-'+userId+'" value="true">';
@@ -75,7 +79,6 @@
 						}
 
 					}
-					
 					res += '</div></div></div>';
 					
 				}
@@ -120,7 +123,7 @@
 						let mFollowCount = $('#mFollowCount'+toUserId).text();
 						let mFollowerCount = $('#mFollowerCount'+toUserId).text();
 						let followCount = $('#followCount').text();
-						let principal = ${principal.id};
+					//	let principal = ${principal.id};
 						let reviewUser = ${review.userId};
 						console.log($('#followBoolean-'+toUserId).val());
 						if($('#followBoolean-'+toUserId).val() == 'true'){

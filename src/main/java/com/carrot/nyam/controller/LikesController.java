@@ -33,18 +33,30 @@ public class LikesController {
 	@GetMapping("/likeInfo/{reviewId}")
 	public @ResponseBody List<ReqLikeInfoDto> likeInfo(Model model, @PathVariable int reviewId, @AuthenticationPrincipal User principal) {
 		List<ReqLikeInfoDto> dtos = likesRepository.likeList(reviewId);
+		System.out.println("프린시펄"+principal);
 		
-		for(ReqLikeInfoDto dto : dtos) {
-			Follow follow = followRepository.findByFromUserAndToUser(principal.getId(), dto.getUserId());
-			if(follow!=null) {
-				dto.setFollow(true);
+		if(principal != null) {
+			for(ReqLikeInfoDto dto : dtos) {
+				Follow follow = followRepository.findByFromUserAndToUser(principal.getId(), dto.getUserId());
+				if(follow!=null) {
+					dto.setFollow(true);
+				}
+				int followCount = followRepository.followCount(dto.getUserId());
+				dto.setFollowCount(followCount);
+				int followerCount = followRepository.followerCount(dto.getUserId());
+				dto.setFollowerCount(followerCount);
 			}
+		}else {
+			System.out.println("널로들어옴?");
+			for(ReqLikeInfoDto dto : dtos) {
 			int followCount = followRepository.followCount(dto.getUserId());
 			dto.setFollowCount(followCount);
 			int followerCount = followRepository.followerCount(dto.getUserId());
 			dto.setFollowerCount(followerCount);
 		}
-		System.out.println(dtos);
+		}
+		
+		System.out.println("라이크인포디티오"+dtos);
 		return dtos;
 	}
 	

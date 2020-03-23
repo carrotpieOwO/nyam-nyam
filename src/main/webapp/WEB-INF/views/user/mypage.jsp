@@ -33,9 +33,9 @@
         </div>
           <div class="ml-5 mb-3">
           
-          <a type="button" class="tag" data-toggle="modal" data-target="#followerModal" data-submit='${user.id}'>
+          <a type="button" class="tag" data-toggle="modal" data-target="#followerModal" data-submit='${user.id}' data-principal='${principal.id}'>
           		팔로워  <span class="ml-1" id="followerCount">${followInfo.followerCount}</span></a>
-          <a type="button" class="tag" data-toggle="modal" data-target="#followModal" data-submit='${user.id}'>
+          <a type="button" class="tag" data-toggle="modal" data-target="#followModal" data-submit='${user.id}' data-principal='${principal.id}'>
           		팔로잉  <span class="ml-1" id="followCount">${followInfo.followCount}</span></a>
           
         </div>
@@ -49,6 +49,8 @@
       <c:choose>
       	<c:when test="${user.username eq principal.username}">
         	<a href="/user/userinfo/${principal.id}" class="btn btn-outline-dark mx-auto mt-2"><i class="fas fa-user-cog"></i> 프로필수정</a>
+        </c:when>
+        <c:when test="${empty principal}">
         </c:when>
         <c:otherwise>       	 	
        	 	<c:choose>
