@@ -14,7 +14,8 @@
 <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet" type="text/css" />
 <link href="https://fonts.googleapis.com/css?family=Finger+Paint|Open+Sans&display=swap" rel="stylesheet" />
 
-<title>Agency - Start Bootstrap Theme</title>
+<title>Nyam-Nyam</title>
+<link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="img/favicon.png"/>
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

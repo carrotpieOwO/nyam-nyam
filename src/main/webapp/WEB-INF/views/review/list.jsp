@@ -380,13 +380,34 @@ function locationFeed(location){
 	$('#feed').attr('class','btn btn-outline-dark');
 	$('#dropdown-btn').css('visibility','visible');
 	$('#dropdown-menu').html(dropdown);
-	
-	if(location == 'busan'){
-		$('.masthead').css('background-image','url(https://dimg04.c-ctrip.com/images/100e15000000xse28F0B0_C_750_350.jpg?proc=source%2ftrip)');
+
+	if(location == 'seoul'){
+		$('.masthead').css('background-image','url(/img/SEOUL.jpg)');
+		$('.intro-lead-in').text('SEOUL');
+		$('.intro-lead-in').css('font-size','80px');
+	}
+	else if(location == 'daejeon'){
+		$('.masthead').css('background-image','url(https://live.staticflickr.com/3665/10107093325_51225d96c5_b.jpg)');
+		$('.intro-lead-in').text('DAEJEON');
+		$('.intro-lead-in').css('font-size','80px');
+	}
+	else if(location == 'daegu'){
+		$('.masthead').css('background-image','url(/img/daegu.jpg)');
+		$('.intro-lead-in').text('DAEGU');
+		$('.intro-lead-in').css('font-size','80px');
+	}
+	else if(location == 'busan'){
+		$('.masthead').css('background-image','url(/img/busan.jpg)');
 		$('.intro-lead-in').text('BUSAN');
 		$('.intro-lead-in').css('font-size','80px');
+	}
+	else{
+		$('.masthead').css('background-image','url(https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/40Qx/image/53AdCXE8CtpnBhSJIirg2jbKBP8.jpg)');
+		$('.intro-lead-in').text('ETC');
+		$('.intro-lead-in').css('font-size','80px');
+	}
 		}
-		}else{
+		else{
 			alert('없음');
 		}
 	}).fail(function(r) {

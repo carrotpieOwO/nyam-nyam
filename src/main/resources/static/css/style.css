@@ -216,7 +216,7 @@ header.masthead .intro-lead-in {
 	font-weight: 700;
 	font-family: "Finger Paint", cursive;
 	position: absolute;
-	top: 50%;
+	top: 20%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	color: white;
@@ -229,7 +229,7 @@ header.masthead .intro-lead-in {
 		font-weight: 700;
 		font-family: "Finger Paint", cursive;
 		position: absolute;
-		top: 25%;
+		top: 20%;
 		transform: translate(-50%, -50%);
 		color: white;
 		text-align: center;
