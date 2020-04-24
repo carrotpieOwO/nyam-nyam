@@ -154,7 +154,7 @@
 	
 	<!-- 검색>태그명 중복제거 -->
 	<select id="selectDistinctTag" resultType="com.carrot.nyam.model.tag.Tag">
-		select distinct tag from tag where tag regexp '${tag}' order by id desc;
+		select distinct tag from tag where tag regexp '${tag}'
 	</select>
 	
 </mapper>
